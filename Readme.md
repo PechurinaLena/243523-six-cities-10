@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Elena Pechurina](https://up.htmlacademy.ru/react/10/user/243523).
-* Наставник: `Неизвестно`.
+* Наставник: [Софья Лопаченок](https://htmlacademy.ru/profile/id130414).
 
 ---
 
