@@ -19,21 +19,21 @@ const currentIcon = new Icon({
 });
 
 export type CitiesMapProps = {
-  offers: Offer[];
-  currentCity: City;
-  selectedPoint?: Offer;
+  foundCards: Offer[];
+  activeCity: City;
+  selectedPoint?: number;
 }
 
-export const CitiesMap: FC<CitiesMapProps> = ({offers, selectedPoint, currentCity}) => {
+export const CitiesMap: FC<CitiesMapProps> = ({foundCards, selectedPoint, activeCity}) => {
   const mapRef = useRef(null);
   const navigate = useNavigate();
-  const map = useMap(currentCity, mapRef);
+  const map = useMap(activeCity, mapRef);
 
   useEffect(() => {
     if (map) {
       const markers: Marker[] = [];
       const zoom = 12;
-      offers.forEach(({location, id, title}) => {
+      foundCards.forEach(({location, id, title}) => {
         const marker = new Marker({
           lat: location.latitude,
           lng: location.longitude,
@@ -42,7 +42,7 @@ export const CitiesMap: FC<CitiesMapProps> = ({offers, selectedPoint, currentCit
         markers.push(marker);
         marker
           .setIcon(
-            selectedPoint && selectedPoint.id === id
+            selectedPoint && selectedPoint === id
               ? currentIcon
               : defaultIcon
           )
@@ -52,14 +52,18 @@ export const CitiesMap: FC<CitiesMapProps> = ({offers, selectedPoint, currentCit
       });
       return () => markers.forEach((marker) => map.removeLayer(marker));
     }
-  }, [map, navigate, offers, selectedPoint]);
+  }, [map, navigate, foundCards, selectedPoint]);
 
   return (
-    <div data-testid="map" style={{
-      height: '100%',
-    }}
-    ref={mapRef}
-    >
+    <div className="cities__right-section">
+      <section className="cities__map map">
+        <div data-testid="map" style={{
+          height: '100%',
+        }}
+        ref={mapRef}
+        >
+        </div>
+      </section>
     </div>
   );
 };
