@@ -16,12 +16,11 @@ const Main: FC = () => {
   const {
     selectedCard,
     currentCity,
-    offers,
     sortOffers,
-    isSortOptionsShown
+    isSortOptionsShown,
+    cityOffers,
   } = useAppSelector((state) => state);
   const onListItemHover = (listItemId: number) => dispatch(setSelectedPoint(listItemId));
-  const foundCards = offers.filter((offer) => offer.city.name === currentCity.name);
 
   const handleClickCity = (item: City) => {
     dispatch(setActiveCity(item));
@@ -47,23 +46,23 @@ const Main: FC = () => {
         </div>
         <div className="cities">
           <div className="cities__places-container container">
-            {foundCards && foundCards.length > 0 ?
+            {cityOffers && cityOffers.length > 0 ?
               <section className="cities__places places">
                 <h2 className="visually-hidden">{Titles.MainPlaces}</h2>
-                <b className="places__found">{foundCards.length} places to stay in {currentCity.name}</b>
+                <b className="places__found">{cityOffers.length} places to stay in {currentCity.name}</b>
                 <SortOptions sortOffers={sortOffers} isSortOptionsShown={isSortOptionsShown}
                   handleChangeVisibleOptions={handleChangeVisibleOptions}
                   handleChangeOption={handleChangeOption}
                 />
                 <div className="cities__places-list places__list tabs__content">
-                  <CardList foundCards={foundCards} onListItemHover={onListItemHover}/>
+                  <CardList foundCards={cityOffers} onListItemHover={onListItemHover}/>
                 </div>
               </section>
               :
               <MainEmpty currentCity={currentCity}/>}
             <div className="cities__right-section">
               <section className="cities__map map">
-                <CitiesMap foundCards={foundCards} selectedCard={selectedCard} currentCity={currentCity}/>
+                <CitiesMap foundCards={cityOffers} selectedCard={selectedCard} currentCity={currentCity}/>
               </section>
             </div>
           </div>

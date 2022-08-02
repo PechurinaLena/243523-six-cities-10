@@ -12,6 +12,7 @@ export type Data = {
   selectedCard: number,
   sortOffers: string,
   isSortOptionsShown: boolean,
+  cityOffers: Offer[],
 }
 
 export const initialState: Data = {
@@ -27,6 +28,7 @@ export const initialState: Data = {
   selectedCard: 0,
   sortOffers: sortType.Popular,
   isSortOptionsShown: false,
+  cityOffers: []
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -36,12 +38,32 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setActiveCity, (state, action) => {
       state.currentCity = action.payload;
+      state.cityOffers = state.offers.filter((offer) => offer.city.name === state.currentCity.name);
     })
     .addCase(setOptionsShown, (state, action) => {
       state.isSortOptionsShown = action.payload;
     })
     .addCase(setSortingOffers, (state, action) => {
       state.sortOffers = action.payload;
+
+      function getSortingOffers(offer: Offer[], type: 'ASC' | 'DESC', key: keyof Pick<Offer, 'id' | 'price' | 'rating'>) {
+        return offer.sort((a, b) => type === 'ASC' ? a[key] - b[key] : b[key] - a[key]);
+      }
+
+      switch (action.payload) {
+        case sortType.Popular:
+          state.cityOffers = getSortingOffers(state.cityOffers, 'ASC', 'id');
+          break;
+        case sortType.PriceLowToHigh:
+          state.cityOffers = getSortingOffers(state.cityOffers, 'ASC', 'price');
+          break;
+        case sortType.PriceHighToLow:
+          state.cityOffers = getSortingOffers(state.cityOffers, 'DESC', 'price');
+          break;
+        case sortType.TopRated:
+          state.cityOffers = getSortingOffers(state.cityOffers, 'DESC', 'rating');
+          break;
+      }
     });
 });
 

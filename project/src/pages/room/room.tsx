@@ -15,10 +15,9 @@ import {Reviews} from 'mocks/reviews';
 export const Room: FC = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
-  const {selectedCard, offers, currentCity} = useAppSelector((state) => state);
+  const {selectedCard, cityOffers, currentCity} = useAppSelector((state) => state);
   const onListItemHover = (listItemId: number) => dispatch(setSelectedPoint(listItemId));
-  const property = offers.find((item: Offer) => item.id === Number(params.id));
-  const foundCards = offers.filter((offer) => offer.city.name === currentCity.name);
+  const property = cityOffers.find((item: Offer) => item.id === Number(params.id));
 
   return (
     <div className="page">
@@ -158,14 +157,14 @@ export const Room: FC = () => {
               </div>
             </div>
             <section className="property__map map">
-              <CitiesMap foundCards={foundCards} currentCity={currentCity} selectedCard={selectedCard}/>
+              <CitiesMap foundCards={cityOffers} currentCity={currentCity} selectedCard={selectedCard}/>
             </section>
           </section>
           <div className="container">
             <section className="near-places places">
               <h2 className="near-places__title">{Titles.RoomNearByPlaces}</h2>
               <div className="near-places__list places__list">
-                <CardList foundCards={foundCards} onListItemHover={onListItemHover}/>
+                <CardList foundCards={cityOffers} onListItemHover={onListItemHover}/>
               </div>
             </section>
           </div>
