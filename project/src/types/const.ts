@@ -19,5 +19,12 @@ export enum Titles {
   RoomNearByPlaces = 'Other places in the neighbourhood'
 }
 
+export const sortType = {
+  Popular: 'Popular',
+  PriceLowToHigh: 'Price: low to high',
+  PriceHighToLow: 'Price: high to low',
+  TopRated: 'Top rated first',
+};
+
 export const paramPattern = /:\w+/;
 export const transformRoute = (uri: string, value?: string): string => uri.replace(paramPattern, value || '');
