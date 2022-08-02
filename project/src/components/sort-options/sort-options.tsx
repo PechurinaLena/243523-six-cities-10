@@ -1,19 +1,43 @@
 import {FC} from 'react';
+import {sortType} from 'types/const';
 
-export const SortOptions: FC = () => (
-  <form className="places__sorting" action="#" method="get">
-    <span className="places__sorting-caption">Sort by</span>
+export type SortOptionProps = {
+  sortOffers: string;
+  isSortOptionsShown: boolean;
+  handleChangeVisibleOptions: (value: boolean) => void;
+  handleChangeOption: (option: string) => void;
+}
+
+export const SortOptions: FC<SortOptionProps> = ({
+  sortOffers,
+  isSortOptionsShown,
+  handleChangeVisibleOptions,
+  handleChangeOption,
+}) => (
+  <form className="places__sorting" action="#" method="get"
+    onClick={() => handleChangeVisibleOptions(!isSortOptionsShown)}
+  >
+    <span className="places__sorting-caption">Sort by {''}</span>
     <span className="places__sorting-type" tabIndex={0}>
-                  Popular
+      {sortOffers}
       <svg className="places__sorting-arrow" width="7" height="4">
         <use xlinkHref="#icon-arrow-select"></use>
       </svg>
     </span>
-    <ul className="places__options places__options--custom places__options--opened">
-      <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-      <li className="places__option" tabIndex={0}>Price: low to high</li>
-      <li className="places__option" tabIndex={0}>Price: high to low</li>
-      <li className="places__option" tabIndex={0}>Top rated first</li>
+    <ul className={`${isSortOptionsShown ? 'places__options--opened' : ''} places__options places__options--custom`}>
+      {Object.values(sortType).map((option, index) => (
+        <li
+          key={option}
+          tabIndex={index + 1}
+          className={`places__option ${option === sortOffers ? 'places__option--active' : ' '}`}
+          onMouseEnter={() => {
+            handleChangeOption(option);
+          }}
+        >
+          {option}
+        </li>
+      )
+      )}
     </ul>
   </form>
 );

@@ -15,13 +15,10 @@ import {Reviews} from 'mocks/reviews';
 export const Room: FC = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
-  const selectedPoint = useAppSelector((state) => state.selectedCard);
+  const {selectedCard, offers, currentCity} = useAppSelector((state) => state);
   const onListItemHover = (listItemId: number) => dispatch(setSelectedPoint(listItemId));
-  const activeCity = useAppSelector((state) => state.currentCity);
-
-  const currentCityOffers = useAppSelector((state) => state.offers);
-  const property = currentCityOffers.find((item: Offer) => item.id === Number(params.id));
-  const foundCards = currentCityOffers.filter((offer) => offer.city.name === activeCity.name);
+  const property = offers.find((item: Offer) => item.id === Number(params.id));
+  const foundCards = offers.filter((offer) => offer.city.name === currentCity.name);
 
   return (
     <div className="page">
@@ -161,7 +158,7 @@ export const Room: FC = () => {
               </div>
             </div>
             <section className="property__map map">
-              <CitiesMap foundCards={foundCards} activeCity={activeCity} selectedPoint={selectedPoint}/>
+              <CitiesMap foundCards={foundCards} currentCity={currentCity} selectedCard={selectedCard}/>
             </section>
           </section>
           <div className="container">

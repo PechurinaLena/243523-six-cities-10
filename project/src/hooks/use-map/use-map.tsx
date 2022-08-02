@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 
 import {City} from 'types/offers';
 
-export const useMap = (activeCity: City, mapRef: MutableRefObject<HTMLElement | null>): Map | null => {
+export const useMap = (currentCity: City, mapRef: MutableRefObject<HTMLElement | null>): Map | null => {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
 
@@ -12,10 +12,10 @@ export const useMap = (activeCity: City, mapRef: MutableRefObject<HTMLElement | 
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = new Map(mapRef.current, {
         center: {
-          lat: activeCity.location.latitude,
-          lng: activeCity.location.longitude,
+          lat: currentCity.location.latitude,
+          lng: currentCity.location.longitude,
         },
-        zoom: activeCity.location.zoom,
+        zoom: currentCity.location.zoom,
       });
 
       new TileLayer(
@@ -27,7 +27,7 @@ export const useMap = (activeCity: City, mapRef: MutableRefObject<HTMLElement | 
       setMap(instance);
       isRenderedRef.current = true;
     }
-  }, [mapRef, map, activeCity]);
+  }, [mapRef, map, currentCity]);
 
   return map;
 };

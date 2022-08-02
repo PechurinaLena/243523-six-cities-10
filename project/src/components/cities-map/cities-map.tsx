@@ -20,14 +20,14 @@ const currentIcon = new Icon({
 
 export type CitiesMapProps = {
   foundCards: Offer[];
-  activeCity: City;
-  selectedPoint?: number;
+  currentCity: City;
+  selectedCard?: number;
 }
 
-export const CitiesMap: FC<CitiesMapProps> = ({foundCards, selectedPoint, activeCity}) => {
+export const CitiesMap: FC<CitiesMapProps> = ({foundCards, selectedCard, currentCity}) => {
   const mapRef = useRef(null);
   const navigate = useNavigate();
-  const map = useMap(activeCity, mapRef);
+  const map = useMap(currentCity, mapRef);
 
   useEffect(() => {
     if (map) {
@@ -42,7 +42,7 @@ export const CitiesMap: FC<CitiesMapProps> = ({foundCards, selectedPoint, active
         markers.push(marker);
         marker
           .setIcon(
-            selectedPoint && selectedPoint === id
+            selectedCard && selectedCard === id
               ? currentIcon
               : defaultIcon
           )
@@ -52,19 +52,10 @@ export const CitiesMap: FC<CitiesMapProps> = ({foundCards, selectedPoint, active
       });
       return () => markers.forEach((marker) => map.removeLayer(marker));
     }
-  }, [map, navigate, foundCards, selectedPoint]);
+  }, [map, navigate, foundCards, selectedCard]);
 
   return (
-    <div className="cities__right-section">
-      <section className="cities__map map">
-        <div data-testid="map" style={{
-          height: '100%',
-        }}
-        ref={mapRef}
-        >
-        </div>
-      </section>
-    </div>
+    <div data-testid="map" style={{height: '100%'}} ref={mapRef}></div>
   );
 };
 
