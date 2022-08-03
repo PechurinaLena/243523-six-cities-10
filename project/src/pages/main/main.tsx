@@ -20,6 +20,7 @@ const Main: FC = () => {
     isSortOptionsShown,
     cityOffers,
   } = useAppSelector((state) => state);
+
   const onListItemHover = (listItemId: number) => dispatch(setSelectedPoint(listItemId));
 
   const handleClickCity = (item: City) => {
