@@ -1,28 +1,23 @@
-import {FC, useState} from 'react';
+import {FC} from 'react';
 import {useParams} from 'react-router-dom';
 
 import Header from 'components/header';
 import ReviewForm from 'components/review-form';
 import CitiesMap from 'components/cities-map';
 import CardList from 'components/card-list';
-import {City, Offer} from 'types/offers';
+import {useAppDispatch, useAppSelector} from 'hooks';
+import {setSelectedPoint} from 'store/action';
+import {Offer} from 'types/offers';
 import {Titles} from 'types/const';
 import {Reviews} from 'mocks/reviews';
 
-export type RoomProps = {
-  offers: Offer[],
-  currentCity: City;
-}
 
-export const Room: FC<RoomProps> = ({offers, currentCity}) => {
+export const Room: FC = () => {
   const params = useParams();
-  const property = offers.find((item: Offer) => item.id === Number(params.id));
-  const [selectedPoint, setSelectedPoint] = useState<Offer>();
-
-  const onListItemHover = (listItemTitle: string) => {
-    const currentOffer = offers.find((offer) => offer.title === listItemTitle);
-    setSelectedPoint(currentOffer);
-  };
+  const dispatch = useAppDispatch();
+  const {selectedCard, cityOffers, currentCity} = useAppSelector((state) => state);
+  const onListItemHover = (listItemId: number) => dispatch(setSelectedPoint(listItemId));
+  const property = cityOffers.find((item: Offer) => item.id === Number(params.id));
 
   return (
     <div className="page">
@@ -162,14 +157,14 @@ export const Room: FC<RoomProps> = ({offers, currentCity}) => {
               </div>
             </div>
             <section className="property__map map">
-              <CitiesMap offers={offers} currentCity={currentCity} selectedPoint={selectedPoint}/>
+              <CitiesMap foundCards={cityOffers} currentCity={currentCity} selectedCard={selectedCard}/>
             </section>
           </section>
           <div className="container">
             <section className="near-places places">
               <h2 className="near-places__title">{Titles.RoomNearByPlaces}</h2>
               <div className="near-places__list places__list">
-                <CardList offers={offers} onListItemHover={onListItemHover}/>
+                <CardList foundCards={cityOffers} onListItemHover={onListItemHover}/>
               </div>
             </section>
           </div>

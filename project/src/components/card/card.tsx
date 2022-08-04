@@ -6,13 +6,13 @@ import {AppRoute, transformRoute} from 'types/const';
 
 export type CardProps = {
   card: Offer;
-  onListItemHover: (listItemTitle: string) => void;
+  onListItemHover: (listItemId: number) => void
 }
 
 const Card: FC<CardProps> = ({card, onListItemHover}) => (
   <article className="cities__card place-card"
-    onMouseEnter={() => onListItemHover(card.title)}
-    onMouseLeave={() => onListItemHover('')}
+    onMouseEnter={() => onListItemHover(card.id)}
+    onMouseLeave={() => onListItemHover(0)}
   >
     {card.status &&
       <div className="place-card__mark">

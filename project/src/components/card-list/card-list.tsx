@@ -4,13 +4,13 @@ import Card from 'components/card';
 import {Offer} from 'types/offers';
 
 export type CardListProps = {
-  offers: Offer[];
-  onListItemHover: (listItemTitle: string) => void;
+  foundCards: Offer[];
+  onListItemHover: (listItemId: number) => void;
 }
 
-export const CardList: FC<CardListProps> = ({offers, onListItemHover}) => (
+export const CardList: FC<CardListProps> = ({foundCards, onListItemHover}) => (
   <>
-    {offers.map((card) => (
+    {foundCards.map((card) => (
       <Card card={card} key={card.id}
         onListItemHover={onListItemHover}
       />
