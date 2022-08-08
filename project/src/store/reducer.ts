@@ -28,55 +28,7 @@ export const initialState: Data = {
   selectedCard: 0,
   sortOffers: sortType.Popular,
   isSortOptionsShown: false,
-  cityOffers: [
-    {
-      id: 5,
-      type: 'Hotel',
-      city: {
-        name: 'Paris',
-        location: {
-          latitude: 48.864716,
-          longitude: 2.349014,
-          zoom: 3
-        }
-      },
-      image: '/img/apartment-03.jpg',
-      description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.\n' +
-        'An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
-      currency: '€',
-      price: 100,
-      rating: 5,
-      status: 'Premium',
-      bedrooms: 2,
-      isFavorite: true,
-      isPremium: true,
-      goods: ['wi-fi',
-        ' Washing machine',
-        'Towels',
-        'Heating',
-        'Coffee machine',
-        'Baby seat',
-        ' Kitchen',
-        'Dishwasher',
-        'Cabel TV',
-        'Fridge'],
-      host: {
-        avatarUrl: '/img/avatar.svg',
-        id: 1,
-        isPro: true,
-        name: 'Jassy',
-      },
-      images: ['string'],
-      location: {
-        latitude: 48.8454572,
-        longitude: 2.324059,
-        zoom: 3
-      },
-      maxAdults: 2,
-      previewImage: 'string',
-      title: 'Hôtel Le Littré',
-    },
-  ]
+  cityOffers: [offers[4]],
 };
 
 const reducer = createReducer(initialState, (builder) => {

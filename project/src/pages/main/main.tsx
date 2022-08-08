@@ -56,14 +56,14 @@ const Main: FC = () => {
                   handleChangeOption={handleChangeOption}
                 />
                 <div className="cities__places-list places__list tabs__content">
-                  <CardList foundCards={cityOffers} onListItemHover={onListItemHover}/>
+                  <CardList cityOffers={cityOffers} onListItemHover={onListItemHover}/>
                 </div>
               </section>
               :
               <MainEmpty currentCity={currentCity}/>}
             <div className="cities__right-section">
               <section className="cities__map map">
-                <CitiesMap foundCards={cityOffers} selectedCard={selectedCard} currentCity={currentCity}/>
+                <CitiesMap cityOffers={cityOffers} selectedCard={selectedCard} currentCity={currentCity}/>
               </section>
             </div>
           </div>

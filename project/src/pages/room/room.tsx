@@ -157,14 +157,14 @@ export const Room: FC = () => {
               </div>
             </div>
             <section className="property__map map">
-              <CitiesMap foundCards={cityOffers} currentCity={currentCity} selectedCard={selectedCard}/>
+              <CitiesMap cityOffers={cityOffers} currentCity={currentCity} selectedCard={selectedCard}/>
             </section>
           </section>
           <div className="container">
             <section className="near-places places">
               <h2 className="near-places__title">{Titles.RoomNearByPlaces}</h2>
               <div className="near-places__list places__list">
-                <CardList foundCards={cityOffers} onListItemHover={onListItemHover}/>
+                <CardList cityOffers={cityOffers} onListItemHover={onListItemHover}/>
               </div>
             </section>
           </div>
