@@ -4,7 +4,7 @@ import {Icon, Marker} from 'leaflet';
 
 import useMap from 'hooks/use-map';
 import {City, Offer} from 'types/offers';
-import {AppRoute, transformRoute} from 'types/const';
+import {AppRoute, transformRoute} from 'components/app/const';
 
 const defaultIcon = new Icon({
   iconUrl: '/img/pin.svg',

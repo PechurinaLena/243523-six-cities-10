@@ -8,7 +8,7 @@ import Favorites from 'pages/favorites';
 import NotFound from 'pages/not-found';
 import PrivateRoute from 'components/private-route';
 import HistoryRouter from 'components/history-router';
-import {AppRoute, AuthorizationStatus} from 'types/const';
+import {AppRoute, AuthorizationStatus} from 'components/app/const';
 import browserHistory from 'services/browser-history';
 
 export const App: FC = () => (

@@ -2,7 +2,7 @@ import {FC, Fragment} from 'react';
 import {Link} from 'react-router-dom';
 
 import {Offer} from 'types/offers';
-import {AppRoute, transformRoute} from 'types/const';
+import {AppRoute, transformRoute} from 'components/app/const';
 import {cities} from 'mocks/cities';
 
 export type FavoriteCardProps = {

@@ -2,7 +2,7 @@ import {FC, FormEvent, useRef} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 
 import Header from 'components/header';
-import {AppRoute, Titles} from 'types/const';
+import {AppRoute, Titles} from 'components/app/const';
 import {AuthData} from 'types/auth-data';
 import {loginAction} from 'store/api-actions';
 import {useAppDispatch} from 'hooks';

@@ -2,7 +2,7 @@ import {FC} from 'react';
 import {Link} from 'react-router-dom';
 
 import {Offer} from 'types/offers';
-import {AppRoute, transformRoute} from 'types/const';
+import {AppRoute, transformRoute} from 'components/app/const';
 
 export type CardProps = {
   card: Offer;

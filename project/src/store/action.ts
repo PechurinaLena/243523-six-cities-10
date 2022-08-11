@@ -1,6 +1,6 @@
 import {createAction} from '@reduxjs/toolkit';
 import {City, Offer} from 'types/offers';
-import {AppRoute, AuthorizationStatus} from 'types/const';
+import {AppRoute, AuthorizationStatus} from 'components/app/const';
 
 export const setSelectedPoint = createAction('offers/setSelectedOffers', (value: Offer['id']) => ({payload: value}));
 export const setActiveCity = createAction('offers/setActiveCity', (value: City) => ({payload: value}));

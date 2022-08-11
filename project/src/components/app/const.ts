@@ -5,9 +5,16 @@ export enum AppRoute {
   Favorites = '/favorites'
 }
 
-export enum AuthorisationStatus {
+export enum APIRoute {
+  Offers = '/hotels',
+  Login = '/login',
+  Logout = '/logout',
+  Favorite = '/favorite'
+}
+
+export enum AuthorizationStatus {
   Auth = 'Auth',
-  NotAuth = 'NoAuth',
+  NoAuth = 'NoAuth',
   UnKnown = 'UnKnown'
 }
 
@@ -25,6 +32,9 @@ export const sortType = {
   PriceHighToLow: 'Price: high to low',
   TopRated: 'Top rated first',
 };
+
+export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+  authorizationStatus === AuthorizationStatus.UnKnown;
 
 export const paramPattern = /:\w+/;
 export const transformRoute = (uri: string, value?: string): string => uri.replace(paramPattern, value || '');

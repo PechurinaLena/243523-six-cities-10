@@ -11,7 +11,7 @@ import {
   setSortingOffers
 } from 'store/action';
 import {City, Offer} from 'types/offers';
-import {AuthorizationStatus, sortType} from 'types/const';
+import {AuthorizationStatus, sortType} from 'components/app/const';
 
 
 export type Data = {

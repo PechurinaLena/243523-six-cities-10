@@ -8,7 +8,7 @@ import CardList from 'components/card-list';
 import {useAppDispatch, useAppSelector} from 'hooks';
 import {setSelectedPoint} from 'store/action';
 import {Offer} from 'types/offers';
-import {Titles} from 'types/const';
+import {Titles} from 'components/app/const';
 import {Reviews} from 'mocks/reviews';
 
 

@@ -10,7 +10,7 @@ import {
   setDataLoadedStatus,
 } from 'store/action';
 import {dropToken, saveToken} from 'services/token';
-import {APIRoute, AppRoute, AuthorizationStatus} from 'types/const';
+import {APIRoute, AppRoute, AuthorizationStatus} from 'components/app/const';
 import {AuthData} from 'types/auth-data';
 import {UserData} from 'types/user-data';
 import {Offer} from 'types/offers';

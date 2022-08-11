@@ -10,7 +10,7 @@ import Loader from 'components/loader';
 import {useAppDispatch, useAppSelector} from 'hooks';
 import {setActiveCity, setOptionsShown, setSelectedPoint, setSortingOffers} from 'store/action';
 import {City} from 'types/offers';
-import {isCheckedAuth, Titles} from 'types/const';
+import {isCheckedAuth, Titles} from 'components/app/const';
 
 
 const Main: FC = () => {
