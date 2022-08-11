@@ -1,22 +1,34 @@
 import {createReducer} from '@reduxjs/toolkit';
 
-import {setActiveCity, setOptionsShown, setSelectedPoint, setSortingOffers} from 'store/action';
+import {
+  loadFavoritesOffers,
+  loadOffers,
+  requireAuthorization,
+  setActiveCity,
+  setDataLoadedStatus,
+  setOptionsShown,
+  setSelectedPoint,
+  setSortingOffers
+} from 'store/action';
 import {City, Offer} from 'types/offers';
-import {offers} from 'mocks/offers';
-import {sortType} from 'types/const';
+import {AuthorizationStatus, sortType} from 'types/const';
 
 
 export type Data = {
   offers: Offer[],
+  favoritesOffers: Offer[],
   currentCity: City,
   selectedCard: number,
   sortOffers: string,
   isSortOptionsShown: boolean,
   cityOffers: Offer[],
+  authorizationStatus: AuthorizationStatus,
+  isDataLoaded: boolean,
 }
 
 export const initialState: Data = {
-  offers: offers,
+  offers: [],
+  favoritesOffers: [],
   currentCity: {
     location: {
       latitude: 52.3909553943508,
@@ -28,11 +40,25 @@ export const initialState: Data = {
   selectedCard: 0,
   sortOffers: sortType.Popular,
   isSortOptionsShown: false,
-  cityOffers: [offers[4]],
+  cityOffers: [],
+  authorizationStatus: AuthorizationStatus.NoAuth,
+  isDataLoaded: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+    })
+    .addCase(loadFavoritesOffers, (state, action) => {
+      state.favoritesOffers = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setDataLoadedStatus, (state, action) => {
+      state.isDataLoaded = action.payload;
+    })
     .addCase(setSelectedPoint, (state, action) => {
       state.selectedCard = action.payload;
     })

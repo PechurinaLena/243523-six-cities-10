@@ -6,14 +6,18 @@ import CitiesMap from 'components/cities-map';
 import CityList from 'components/city-list';
 import MainEmpty from 'components/main-empty';
 import SortOptions from 'components/sort-options';
+import Loader from 'components/loader';
 import {useAppDispatch, useAppSelector} from 'hooks';
 import {setActiveCity, setOptionsShown, setSelectedPoint, setSortingOffers} from 'store/action';
 import {City} from 'types/offers';
-import {Titles} from 'types/const';
+import {isCheckedAuth, Titles} from 'types/const';
+
 
 const Main: FC = () => {
   const dispatch = useAppDispatch();
   const {
+    authorizationStatus,
+    isDataLoaded,
     selectedCard,
     currentCity,
     sortOffers,
@@ -35,7 +39,9 @@ const Main: FC = () => {
     dispatch(setSortingOffers(option));
   };
 
-  return (
+  return isCheckedAuth(authorizationStatus || isDataLoaded) ?
+    <Loader/>
+    :
     <div className="page page--gray page--main">
       <Header/>
       <main className="page__main page__main--index">
@@ -69,8 +75,7 @@ const Main: FC = () => {
           </div>
         </div>
       </main>
-    </div>
-  );
+    </div>;
 };
 
 export default Main;

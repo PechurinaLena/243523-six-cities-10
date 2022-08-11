@@ -20,7 +20,6 @@ export type Offer = {
   id: number
   type: string
   city: City
-  image: string
   description: string
   currency: string
   price: number

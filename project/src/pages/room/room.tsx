@@ -27,24 +27,11 @@ export const Room: FC = () => {
           <section className="property">
             <div className="property__gallery-container container">
               <div className="property__gallery">
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="/img/room.jpg" alt=" "/>
-                </div>
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="/img/apartment-01.jpg" alt=" "/>
-                </div>
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="/img/apartment-02.jpg" alt=" "/>
-                </div>
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="/img/apartment-03.jpg" alt=" "/>
-                </div>
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="/img/studio-01.jpg" alt=" "/>
-                </div>
-                <div className="property__image-wrapper">
-                  <img className="property__image" src="/img/apartment-01.jpg" alt=" "/>
-                </div>
+                {property.images.map((image) => (
+                  <div className="property__image-wrapper" key={image}>
+                    <img className="property__image" src={image} alt={image}/>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="property__container container">
@@ -98,7 +85,7 @@ export const Room: FC = () => {
                   <h2 className="property__host-title">Meet the host</h2>
                   <div className="property__host-user user">
                     <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                      <img className="property__avatar user__avatar" src="/img/avatar-angelina.jpg" width="74"
+                      <img className="property__avatar user__avatar" src={property.host.avatarUrl} width="74"
                         height="74"
                         alt="Host avatar"
                       />
@@ -120,7 +107,7 @@ export const Room: FC = () => {
                 <section className="property__reviews reviews">
                   <h2 className="reviews__title">Reviews &middot;
                     <span className="reviews__amount">
-                      {Reviews.length}
+                      {property.rating}
                     </span>
                   </h2>
                   {Reviews.map((review) => (

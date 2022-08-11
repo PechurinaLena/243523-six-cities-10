@@ -1,5 +1,5 @@
 import {FC} from 'react';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 
 import Login from 'pages/login';
 import Main from 'pages/main';
@@ -7,15 +7,12 @@ import Room from 'pages/room';
 import Favorites from 'pages/favorites';
 import NotFound from 'pages/not-found';
 import PrivateRoute from 'components/private-route';
-import {Offer} from 'types/offers';
-import {AppRoute, AuthorisationStatus} from 'types/const';
+import HistoryRouter from 'components/history-router';
+import {AppRoute, AuthorizationStatus} from 'types/const';
+import browserHistory from 'services/browser-history';
 
-type AppScreenProps = {
-  offers: Offer[];
-}
-
-export const App: FC<AppScreenProps> = ({offers}) => (
-  <BrowserRouter>
+export const App: FC = () => (
+  <HistoryRouter history={browserHistory}>
     <Routes>
       <Route path={AppRoute.Root}
         element={<Main/>}
@@ -27,8 +24,10 @@ export const App: FC<AppScreenProps> = ({offers}) => (
       <Route
         path={AppRoute.Favorites}
         element={
-          <PrivateRoute authorisationStatus={AuthorisationStatus.Auth}>
-            <Favorites offers={offers}/>
+          <PrivateRoute
+            authorizationStatus={AuthorizationStatus.Auth || AuthorizationStatus.UnKnown || AuthorizationStatus.Auth}
+          >
+            <Favorites/>
           </PrivateRoute>
         }
       />
@@ -41,7 +40,7 @@ export const App: FC<AppScreenProps> = ({offers}) => (
         element={<NotFound/>}
       />
     </Routes>
-  </BrowserRouter>
+  </HistoryRouter>
 );
 
 export default App;

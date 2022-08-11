@@ -28,8 +28,9 @@ export const FavoriteCard: FC<FavoriteCardProps> = ({favoritesPlaces}) => (
                 <article className="favorites__card place-card">
                   <div className="favorites__image-wrapper place-card__image-wrapper">
                     <Link to={''}>
-                      <img className="place-card__image" src={favoriteOffer.image} width="150" height="110"
-                        alt=""
+                      <img className="place-card__image" src={favoriteOffer.previewImage} width="150"
+                        height="110"
+                        alt={''}
                       />
                     </Link>
                   </div>
