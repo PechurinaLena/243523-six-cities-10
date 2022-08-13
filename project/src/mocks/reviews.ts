@@ -25,7 +25,7 @@ export const Reviews = [
   }
 ];
 
-export const RatingStarTitles = [
+export const RatingStars = [
   {id: 1, title: 'terribly'},
   {id: 2, title: 'badly'},
   {id: 3, title: 'not bad'},

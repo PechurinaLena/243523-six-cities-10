@@ -1,4 +1,4 @@
-export type Reviews = [{
+export type Reviews = {
   comment: string
   date: string
   id: number
@@ -9,6 +9,6 @@ export type Reviews = [{
     isPro: boolean
     name: string
   }
-}]
+}
 
 
