@@ -14,9 +14,9 @@ const Card: FC<CardProps> = ({card, onListItemHover}) => (
     onMouseEnter={() => onListItemHover(card.id)}
     onMouseLeave={() => onListItemHover(0)}
   >
-    {card.status &&
+    {card.isPremium &&
       <div className="place-card__mark">
-        <span>{card.status}</span>
+        <span>Premium</span>
       </div>}
     <div className="cities__image-wrapper place-card__image-wrapper">
       <Link to={(transformRoute(`${AppRoute.Room}/${card.id}`))}>
@@ -28,7 +28,7 @@ const Card: FC<CardProps> = ({card, onListItemHover}) => (
     <div className="place-card__info">
       <div className="place-card__price-wrapper">
         <div className="place-card__price">
-          <b className="place-card__price-value">{card.currency}{card.price}</b>
+          <b className="place-card__price-value">${card.price}</b>
           <span className="place-card__price-text">&#47;&nbsp;night</span>
         </div>
         <button className="place-card__bookmark-button button" type="button">
@@ -45,7 +45,7 @@ const Card: FC<CardProps> = ({card, onListItemHover}) => (
         </div>
       </div>
       <h2 className="place-card__name">
-        <Link to={(transformRoute(`${AppRoute.Room}/${card.id}`))}>{card.title}</Link>
+        <Link to={{pathname: `${AppRoute.Room}/${card.id}`}}>{card.title}</Link>
       </h2>
       <p className="place-card__type">{card.type}</p>
     </div>

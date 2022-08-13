@@ -6,24 +6,22 @@ import CitiesMap from 'components/cities-map';
 import CityList from 'components/city-list';
 import MainEmpty from 'components/main-empty';
 import SortOptions from 'components/sort-options';
-import Loader from 'components/loader';
 import {useAppDispatch, useAppSelector} from 'hooks';
 import {setActiveCity, setOptionsShown, setSelectedPoint, setSortingOffers} from 'store/action';
 import {City} from 'types/offers';
-import {isCheckedAuth, Titles} from 'components/app/const';
+import {Titles} from 'components/app/const';
 
 
 const Main: FC = () => {
   const dispatch = useAppDispatch();
   const {
-    authorizationStatus,
-    isDataLoaded,
     selectedCard,
     currentCity,
     sortOffers,
     isSortOptionsShown,
-    cityOffers,
+    offers,
   } = useAppSelector((state) => state);
+  const cityOffers = offers.filter((el) => el.city.name === currentCity.name);
 
   const onListItemHover = (listItemId: number) => dispatch(setSelectedPoint(listItemId));
 
@@ -39,9 +37,7 @@ const Main: FC = () => {
     dispatch(setSortingOffers(option));
   };
 
-  return isCheckedAuth(authorizationStatus || isDataLoaded) ?
-    <Loader/>
-    :
+  return (
     <div className="page page--gray page--main">
       <Header/>
       <main className="page__main page__main--index">
@@ -75,7 +71,8 @@ const Main: FC = () => {
           </div>
         </div>
       </main>
-    </div>;
+    </div>
+  );
 };
 
 export default Main;

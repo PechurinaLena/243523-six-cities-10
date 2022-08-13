@@ -1,5 +1,5 @@
 import {FC} from 'react';
-import {sortType} from 'types/const';
+import {SortType} from 'components/app/const';
 
 export type SortOptionProps = {
   sortOffers: string;
@@ -25,11 +25,11 @@ export const SortOptions: FC<SortOptionProps> = ({
       </svg>
     </span>
     <ul className={`${isSortOptionsShown ? 'places__options--opened' : ''} places__options places__options--custom`}>
-      {Object.values(sortType).map((option, index) => (
+      {Object.values(SortType).map((option, index) => (
         <li
           key={option}
           tabIndex={index + 1}
-          className={`places__option ${option === sortOffers ? 'places__option--active' : ' '}`}
+          className={`places__option ${option === sortOffers && 'places__option--active'}`}
           onMouseEnter={() => {
             handleChangeOption(option);
           }}

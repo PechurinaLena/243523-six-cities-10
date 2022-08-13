@@ -5,14 +5,16 @@ import Footer from 'components/footer';
 import FavoriteCard from 'components/favorite-card';
 import FavoritesEmpty from 'components/favorites-empty';
 import {Offer} from 'types/offers';
-import {Titles} from 'types/const';
+import {Titles} from 'components/app/const';
+import {store} from 'store';
+import {fetchFavoritesOffersAction} from 'store/api-actions';
+import {useAppSelector} from 'hooks';
 
-export type FavoritesProps = {
-  offers: Offer[];
-}
+store.dispatch(fetchFavoritesOffersAction());
 
-export const Favorites: FC<FavoritesProps> = ({offers}) => {
-  const favoritesPlaces = offers.filter((item: Offer) => item.isFavorite);
+export const Favorites: FC = () => {
+  const {favoritesOffers} = useAppSelector((state) => state);
+  const favoritesPlaces = favoritesOffers.filter((item: Offer) => item.isFavorite);
 
   return (
     <div className="page">
