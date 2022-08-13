@@ -9,13 +9,14 @@ export enum APIRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
-  Favorite = '/favorite'
+  Favorite = '/favorite',
+  Reviews = '/comments',
 }
 
 export enum AuthorizationStatus {
   Auth = 'Auth',
   NoAuth = 'NoAuth',
-  UnKnown = 'UnKnown'
+  UnKnown = 'Unknown'
 }
 
 export enum Titles {
@@ -26,7 +27,7 @@ export enum Titles {
   RoomNearByPlaces = 'Other places in the neighbourhood'
 }
 
-export const sortType = {
+export const SortType = {
   Popular: 'Popular',
   PriceLowToHigh: 'Price: low to high',
   PriceHighToLow: 'Price: high to low',
@@ -36,5 +37,6 @@ export const sortType = {
 export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.UnKnown;
 
+export const getRatingWidth = (value: number) => Math.round(value) / 5 * 100;
 export const paramPattern = /:\w+/;
 export const transformRoute = (uri: string, value?: string): string => uri.replace(paramPattern, value || '');
