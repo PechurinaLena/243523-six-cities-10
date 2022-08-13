@@ -2,33 +2,51 @@ import {createReducer} from '@reduxjs/toolkit';
 
 import {
   loadFavoritesOffers,
+  loadNearbyOffers,
   loadOffers,
+  loadReviews,
+  loadUser,
+  postReview,
   requireAuthorization,
   setActiveCity,
+  setCurrentOffer,
   setDataLoadedStatus,
+  setFavoriteOfferLoaded,
   setOptionsShown,
+  setReviewLoaded,
   setSelectedPoint,
   setSortingOffers
 } from 'store/action';
 import {City, Offer} from 'types/offers';
-import {AuthorizationStatus, sortType} from 'components/app/const';
+import {Reviews} from 'types/reviews';
+import {AuthorizationStatus, SortType} from 'components/app/const';
+import {UserData} from '../types/user-data';
 
 
 export type Data = {
+  user: UserData | null,
   offers: Offer[],
+  currentOffer: Offer | null,
   favoritesOffers: Offer[],
+  nearbyOffers: Offer[],
   currentCity: City,
   selectedCard: number,
+  reviews: Reviews[],
+  newReview: Reviews | null,
   sortOffers: string,
   isSortOptionsShown: boolean,
-  cityOffers: Offer[],
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
+  isFavoriteOfferLoaded: boolean,
+  isReviewLoaded: boolean,
 }
 
 export const initialState: Data = {
+  user: null,
   offers: [],
+  currentOffer: null,
   favoritesOffers: [],
+  nearbyOffers: [],
   currentCity: {
     location: {
       latitude: 52.3909553943508,
@@ -38,20 +56,44 @@ export const initialState: Data = {
     name: 'Paris',
   },
   selectedCard: 0,
-  sortOffers: sortType.Popular,
+  reviews: [],
+  newReview: null,
+  sortOffers: SortType.Popular,
   isSortOptionsShown: false,
-  cityOffers: [],
   authorizationStatus: AuthorizationStatus.NoAuth,
   isDataLoaded: false,
+  isFavoriteOfferLoaded: false,
+  isReviewLoaded: false
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(loadUser, (state, action) => {
+      state.user = action.payload;
+    })
     .addCase(loadOffers, (state, action) => {
       state.offers = action.payload;
     })
+    .addCase(setCurrentOffer, (state, action) => {
+      state.currentOffer = action.payload;
+    })
     .addCase(loadFavoritesOffers, (state, action) => {
       state.favoritesOffers = action.payload;
+    })
+    .addCase(loadNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(setFavoriteOfferLoaded, (state, action) => {
+      state.isFavoriteOfferLoaded = action.payload;
+    })
+    .addCase(loadReviews, (state, action) => {
+      state.reviews = action.payload;
+    })
+    .addCase(postReview, (state, action) => {
+      state.newReview = action.payload;
+    })
+    .addCase(setReviewLoaded, (state, action) => {
+      state.isReviewLoaded = action.payload;
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
@@ -64,7 +106,6 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setActiveCity, (state, action) => {
       state.currentCity = action.payload;
-      state.cityOffers = state.offers.filter((offer) => offer.city.name === state.currentCity.name);
     })
     .addCase(setOptionsShown, (state, action) => {
       state.isSortOptionsShown = action.payload;
@@ -77,17 +118,17 @@ const reducer = createReducer(initialState, (builder) => {
       }
 
       switch (action.payload) {
-        case sortType.Popular:
-          state.cityOffers = getSortingOffers(state.cityOffers, 'ASC', 'id');
+        case SortType.Popular:
+          state.offers = getSortingOffers(state.offers, 'ASC', 'id');
           break;
-        case sortType.PriceLowToHigh:
-          state.cityOffers = getSortingOffers(state.cityOffers, 'ASC', 'price');
+        case SortType.PriceLowToHigh:
+          state.offers = getSortingOffers(state.offers, 'ASC', 'price');
           break;
-        case sortType.PriceHighToLow:
-          state.cityOffers = getSortingOffers(state.cityOffers, 'DESC', 'price');
+        case SortType.PriceHighToLow:
+          state.offers = getSortingOffers(state.offers, 'DESC', 'price');
           break;
-        case sortType.TopRated:
-          state.cityOffers = getSortingOffers(state.cityOffers, 'DESC', 'rating');
+        case SortType.TopRated:
+          state.offers = getSortingOffers(state.offers, 'DESC', 'rating');
           break;
       }
     });

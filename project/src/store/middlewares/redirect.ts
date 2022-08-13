@@ -1,7 +1,7 @@
 import {Middleware} from 'redux';
 
 import {reducer} from 'store/reducer';
-import browserHistory from 'services/browser-history';
+import browserHistory from 'browser-history';
 
 type Reducer = ReturnType<typeof reducer>;
 
