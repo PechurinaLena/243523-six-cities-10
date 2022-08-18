@@ -38,5 +38,11 @@ export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean
   authorizationStatus === AuthorizationStatus.UnKnown;
 
 export const getRatingWidth = (value: number) => Math.round(value) / 5 * 100;
+
+export const getRandomCity = (min: number, max: number) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
+
 export const paramPattern = /:\w+/;
 export const transformRoute = (uri: string, value?: string): string => uri.replace(paramPattern, value || '');
+
+export const COMMENT_MIN_LENGTH = 50;
