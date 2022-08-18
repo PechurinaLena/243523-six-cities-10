@@ -2,26 +2,22 @@ import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from 'types/state.js';
 
-import {
-  loadFavoritesOffers,
-  loadNearbyOffers,
-  loadOffers,
-  loadReviews,
-  loadUser,
-  postReview,
-  redirectToRoute,
-  requireAuthorization,
-  setCurrentOffer,
-  setDataLoadedStatus,
-  setFavoriteOfferLoaded,
-  setReviewLoaded,
-} from 'store/action';
+import {redirectToRoute} from 'store/root-action';
 import {dropToken, saveToken} from 'services/token';
-import {APIRoute, AppRoute, AuthorizationStatus} from 'components/app/const';
 import {AuthData} from 'types/auth-data';
 import {UserData} from 'types/user-data';
 import {Offer} from 'types/offers';
 import {Reviews} from 'types/reviews';
+import {APIRoute, AppRoute, AuthorizationStatus} from 'components/app/const';
+import {loadUser, requireAuthorization, setDataLoadedStatus} from 'store/reducers/user/action';
+import {loadReviews, postReview, setReviewLoaded} from 'store/reducers/reviews/action';
+import {
+  loadFavoritesOffers,
+  loadNearbyOffers,
+  loadOffers,
+  setCurrentOffer,
+  setFavoriteOfferLoaded
+} from 'store/reducers/offer/action';
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
@@ -81,7 +77,7 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const fetchOfferAction = createAsyncThunk<void, { hotelId: number }, {
+export const fetchOfferAction = createAsyncThunk<void, { hotelId: number | undefined }, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -95,7 +91,7 @@ export const fetchOfferAction = createAsyncThunk<void, { hotelId: number }, {
   },
 );
 
-export const fetchNearbyOffersAction = createAsyncThunk<void, { hotelId: number }, {
+export const fetchNearbyOffersAction = createAsyncThunk<void, { hotelId: number | undefined }, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -159,8 +155,8 @@ export const fetchNewReviewAction = createAsyncThunk<void, { comment: string, ra
 }>(
   'data/postNewReview',
   async ({comment, rating, hotelId}, {dispatch, extra: api}) => {
-    const {data} = await api.post<Reviews>(`${APIRoute.Reviews}/${hotelId}`, {comment, rating});
     dispatch(setReviewLoaded(true));
+    const {data} = await api.post<Reviews>(`${APIRoute.Reviews}/${hotelId}`, {comment, rating});
     dispatch(postReview(data));
     dispatch(setReviewLoaded(false));
   }
