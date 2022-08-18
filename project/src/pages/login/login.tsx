@@ -2,10 +2,13 @@ import {FC, FormEvent, useRef} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 
 import Header from 'components/header';
-import {AppRoute, Titles} from 'components/app/const';
-import {AuthData} from 'types/auth-data';
+import {AppRoute, getRandomCity, Titles} from 'components/app/const';
 import {loginAction} from 'store/api-actions';
+import {setActiveCity} from 'store/reducers/offer/action';
 import {useAppDispatch} from 'hooks';
+import {AuthData} from 'types/auth-data';
+import {City} from 'types/offers';
+import {cities} from 'mocks/cities';
 
 export const Login: FC = () => {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -13,6 +16,12 @@ export const Login: FC = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const randomCity = cities[getRandomCity(0, 5)];
+
+  const handleClickToRandomCity = (city: City) => {
+    dispatch(setActiveCity(city));
+  };
 
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
@@ -72,8 +81,10 @@ export const Login: FC = () => {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link to={AppRoute.Root} className="locations__item-link">
-                <span>Amsterdam</span>
+              <Link to={AppRoute.Root} className="locations__item-link"
+                onClick={() => handleClickToRandomCity(randomCity)}
+              >
+                <span>{randomCity.name}</span>
               </Link>
             </div>
           </section>

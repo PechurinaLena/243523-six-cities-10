@@ -2,17 +2,15 @@ import {FC, useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 
 import Header from 'components/header';
-import ReviewForm from 'components/review-form';
 import CitiesMap from 'components/cities-map';
 import CardList from 'components/card-list';
 import Loader from 'components/loader';
 import ReviewList from 'components/review-list';
 import NotFound from 'pages/not-found';
 import {useAppDispatch, useAppSelector} from 'hooks';
-import {setSelectedPoint} from 'store/action';
 import {AppRoute, AuthorizationStatus, getRatingWidth, Titles} from 'components/app/const';
-import {fetchNearbyOffersAction, fetchOfferAction, fetchOfferStatusAction, fetchReviewsAction} from 'store/api-actions';
-
+import {fetchNearbyOffersAction, fetchOfferAction, fetchOfferStatusAction} from 'store/api-actions';
+import {setSelectedPoint} from 'store/reducers/offer/action';
 
 export const Room: FC = () => {
   const [isNearByOffersUpdated, setNearByOffersUpdated] = useState(false);
@@ -22,19 +20,16 @@ export const Room: FC = () => {
   const params = useParams();
   const hotelId = Number(params.id);
   const dispatch = useAppDispatch();
+  const {isDataLoaded, authorizationStatus} = useAppSelector((state) => state.USER);
+  const {reviews} = useAppSelector((state) => state.COMMENTS);
   const {
     selectedCard,
     currentCity,
     nearbyOffers,
     isFavoriteOfferLoaded,
-    isDataLoaded,
-    authorizationStatus,
-    reviews,
-    currentOffer,
-  } = useAppSelector((state) => state);
+    currentOffer
+  } = useAppSelector((state) => state.OFFERS);
   const isAuthorizedUser = authorizationStatus === AuthorizationStatus.Auth;
-
-  const onListItemHover = (listItemId: number) => dispatch(setSelectedPoint(listItemId));
 
   useEffect(() => {
     if (!isOfferUpdated || !isFavoriteOfferLoaded) {
@@ -44,15 +39,13 @@ export const Room: FC = () => {
   }, [isOfferUpdated, hotelId, dispatch, isFavoriteOfferLoaded]);
 
   useEffect(() => {
-    dispatch(fetchReviewsAction({hotelId}));
-  }, [hotelId, dispatch]);
-
-  useEffect(() => {
     if (!isNearByOffersUpdated || !isFavoriteOfferLoaded) {
       dispatch(fetchNearbyOffersAction({hotelId}));
       setNearByOffersUpdated(true);
     }
   }, [isNearByOffersUpdated, hotelId, dispatch, isFavoriteOfferLoaded]);
+
+  const onListItemHover = (listItemId: number) => dispatch(setSelectedPoint(listItemId));
 
   const handleClickToBookMark = () => {
     if (!isAuthorizedUser) {
@@ -65,11 +58,11 @@ export const Room: FC = () => {
     setOfferUpdated(true);
   };
 
-  if (!currentOffer || !hotelId) {
-    return <NotFound/>;
+  if (isDataLoaded) {
+    return <Loader/>;
   }
 
-  return currentOffer && !isDataLoaded ?
+  return currentOffer ?
     <div className="page">
       <Header/>
       <main className="page__main page__main--property">
@@ -125,7 +118,7 @@ export const Room: FC = () => {
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">${currentOffer.price}</b>
+                <b className="property__price-value">&euro;{currentOffer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
@@ -159,16 +152,7 @@ export const Room: FC = () => {
                   </p>
                 </div>
               </div>
-              <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot;
-                  <span className="reviews__amount">
-                    {currentOffer.rating}
-                  </span>
-                </h2>
-                <ReviewList reviews={reviews}/>
-                {isAuthorizedUser &&
-                  <ReviewForm/>}
-              </section>
+              <ReviewList reviews={reviews} hotelId={hotelId} isAuthorizedUser={isAuthorizedUser}/>
             </div>
           </div>
           <section className="property__map map">
@@ -186,7 +170,7 @@ export const Room: FC = () => {
       </main>
     </div>
     :
-    <Loader/>;
+    <NotFound/>;
 };
 
 export default Room;

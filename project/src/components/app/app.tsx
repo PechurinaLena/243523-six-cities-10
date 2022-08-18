@@ -14,7 +14,7 @@ import browserHistory from 'browser-history';
 import {useAppSelector} from 'hooks';
 
 export const App: FC = () => {
-  const {authorizationStatus, isDataLoaded} = useAppSelector((state) => state);
+  const {authorizationStatus, isDataLoaded} = useAppSelector((state) => state.USER);
   const isAuthorizedUser = authorizationStatus === AuthorizationStatus.Auth;
 
   if (isCheckedAuth(authorizationStatus || isDataLoaded)) {
@@ -26,31 +26,32 @@ export const App: FC = () => {
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
-        <Route path={AppRoute.Root}
-          element={<Main/>}
-        />
-        <Route index element={<Main/>}/>
-        <Route path={`${AppRoute.Room}/:id`}
-          element={<Room/>}
-        />
-        <Route
-          path={AppRoute.Favorites}
-          element={
-            <PrivateRoute
-              isAuthorizedUser={isAuthorizedUser}
-            >
-              <Favorites/>
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Login}
-          element={<Login/>}
-        />
-        <Route
-          path="*"
-          element={<NotFound/>}
-        />
+        <Route path="/">
+          <Route
+            index
+            element={<Main isAuthorizedUser={isAuthorizedUser}/>}
+          />
+          <Route
+            path={AppRoute.Favorites}
+            element={
+              <PrivateRoute isAuthorizedUser={isAuthorizedUser}>
+                <Favorites/>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.Login}
+            element={<Login/>}
+          />
+          <Route
+            path={`${AppRoute.Room}/:id`}
+            element={<Room/>}
+          />
+          <Route
+            path="*"
+            element={<NotFound/>}
+          />
+        </Route>
       </Routes>
     </HistoryRouter>
   );
