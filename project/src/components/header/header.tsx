@@ -13,7 +13,8 @@ export type HeaderProps = {
 export const Header: FC<HeaderProps> = ({isLoginPage}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const {authorizationStatus, favoritesOffers, user} = useAppSelector((state) => state);
+  const {authorizationStatus, user} = useAppSelector((state) => state.USER);
+  const {favoritesOffers} = useAppSelector((state) => state.OFFERS);
   const isAuthorizedUser = authorizationStatus === AuthorizationStatus.Auth;
 
   const handleLogin = (event: BaseSyntheticEvent) => {
@@ -40,12 +41,14 @@ export const Header: FC<HeaderProps> = ({isLoginPage}) => {
               <ul className="header__nav-list">
                 {isAuthorizedUser &&
                   <li className="header__nav-item user">
-                    <a className="header__nav-link header__nav-link--profile" href=" ">
+                    <Link to={AppRoute.Favorites}
+                      className="header__nav-link header__nav-link--profile"
+                    >
                       <div className="header__avatar-wrapper user__avatar-wrapper">
                       </div>
                       <span className="header__user-name user__name">{user?.email}</span>
                       <span className="header__favorite-count">{favoritesOffers.length}</span>
-                    </a>
+                    </Link>
                   </li>}
                 <AuthorizationButton isAuthorizedUser={isAuthorizedUser} handleLogin={handleLogin}
                   handleLogout={handleLogout}

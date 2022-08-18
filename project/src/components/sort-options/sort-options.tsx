@@ -1,4 +1,5 @@
 import {FC} from 'react';
+
 import {SortType} from 'components/app/const';
 
 export type SortOptionProps = {

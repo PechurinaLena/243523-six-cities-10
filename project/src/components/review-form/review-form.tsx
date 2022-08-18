@@ -1,32 +1,46 @@
-import {BaseSyntheticEvent, ChangeEvent, FC, useState} from 'react';
+import {ChangeEvent, FC, FormEvent, useState} from 'react';
 
 import RatingStar from 'components/rating-star';
 import {RatingStars} from 'mocks/reviews';
-import {useAppDispatch, useAppSelector} from 'hooks';
+import {useAppDispatch} from 'hooks';
 import {fetchNewReviewAction} from 'store/api-actions';
+import {COMMENT_MIN_LENGTH} from 'components/app/const';
 
-export const ReviewForm: FC = () => {
+export type ReviewFormProps = {
+  isReviewLoaded: boolean;
+  hotelId: number;
+}
+
+export const ReviewForm: FC<ReviewFormProps> = ({isReviewLoaded, hotelId}) => {
   const [rating, setRating] = useState(0);
   const [comment, setReview] = useState('');
   const [isEnabledSubmit, setEnabledSubmit] = useState(false);
 
   const dispatch = useAppDispatch();
-  const {currentOffer, isReviewLoaded} = useAppSelector((state) => state);
 
   const handleChange = ({target}: ChangeEvent<HTMLTextAreaElement>): void => {
     setReview(target.value);
-    if (target.value.length >= 50) {
+    if (target.value.length >= COMMENT_MIN_LENGTH) {
       setEnabledSubmit(true);
     }
   };
 
-  const handleSubmit = (event: BaseSyntheticEvent) => {
-    event.preventDefault();
-    dispatch((fetchNewReviewAction({comment, rating, hotelId: currentOffer?.id})));
+  const onSubmit = () => {
+    dispatch(fetchNewReviewAction({comment, rating, hotelId}));
+    setEnabledSubmit(false);
   };
 
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    setEnabledSubmit(true);
+    onSubmit();
+    setRating(0);
+    setReview('');
+  };
+
+
   return (
-    <form className="reviews__form form" action="#" method='post' onSubmit={handleSubmit}>
+    <form className="reviews__form form" action="#" method='post' onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {RatingStars.map((item) => (
@@ -49,7 +63,9 @@ export const ReviewForm: FC = () => {
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay
           with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!isEnabledSubmit}>Submit
+        <button className="reviews__submit form__submit button" type="submit"
+          disabled={!isEnabledSubmit}
+        >Submit
         </button>
       </div>
     </form>

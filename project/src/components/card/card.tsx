@@ -2,14 +2,15 @@ import {FC} from 'react';
 import {Link} from 'react-router-dom';
 
 import {Offer} from 'types/offers';
-import {AppRoute, transformRoute} from 'components/app/const';
+import {AppRoute, getRatingWidth, transformRoute} from 'components/app/const';
 
 export type CardProps = {
   card: Offer;
   onListItemHover: (listItemId: number) => void
+  handleClickToBookMark?: () => void;
 }
 
-const Card: FC<CardProps> = ({card, onListItemHover}) => (
+const Card: FC<CardProps> = ({card, onListItemHover, handleClickToBookMark}) => (
   <article className="cities__card place-card"
     onMouseEnter={() => onListItemHover(card.id)}
     onMouseLeave={() => onListItemHover(0)}
@@ -28,11 +29,17 @@ const Card: FC<CardProps> = ({card, onListItemHover}) => (
     <div className="place-card__info">
       <div className="place-card__price-wrapper">
         <div className="place-card__price">
-          <b className="place-card__price-value">${card.price}</b>
+          <b className="place-card__price-value">&euro;{card.price}</b>
           <span className="place-card__price-text">&#47;&nbsp;night</span>
         </div>
-        <button className="place-card__bookmark-button button" type="button">
-          <svg className="place-card__bookmark-icon" width="18" height="19">
+        <button
+          className={`place-card__bookmark-button ${card.isFavorite && 'place-card__bookmark-button--active'} button`}
+          type="button" onClick={handleClickToBookMark}
+        >
+          <svg
+            className="place-card__bookmark-icon"
+            width="18" height="19"
+          >
             <use xlinkHref="#icon-bookmark"></use>
           </svg>
           <span className="visually-hidden">To bookmarks</span>
@@ -40,12 +47,12 @@ const Card: FC<CardProps> = ({card, onListItemHover}) => (
       </div>
       <div className="place-card__rating rating">
         <div className="place-card__stars rating__stars">
-          <span style={{width: '80%'}}></span>
+          <span style={{width: `${getRatingWidth(card.rating)}%`}}></span>
           <span className="visually-hidden">{card.rating}</span>
         </div>
       </div>
       <h2 className="place-card__name">
-        <Link to={{pathname: `${AppRoute.Room}/${card.id}`}}>{card.title}</Link>
+        <Link to={(transformRoute(`${AppRoute.Room}/${card.id}`))}>{card.title}</Link>
       </h2>
       <p className="place-card__type">{card.type}</p>
     </div>

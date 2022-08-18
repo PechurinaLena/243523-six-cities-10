@@ -8,7 +8,7 @@ type PrivateRouteProps = {
   children: JSX.Element
 }
 
-export const PrivateRoute: FC<PrivateRouteProps> = ({isAuthorizedUser, children}) => (
+export const PrivateRoute: FC<PrivateRouteProps> = ({children, isAuthorizedUser}) => (
   isAuthorizedUser ?
     children :
     <Navigate to={AppRoute.Login}/>

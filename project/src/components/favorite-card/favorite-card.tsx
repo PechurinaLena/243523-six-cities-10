@@ -19,7 +19,7 @@ export const FavoriteCard: FC<FavoriteCardProps> = ({favoritesPlaces}) => (
             <li key={favoriteOffer.id} className="favorites__locations-items">
               <div className="favorites__locations locations locations--current">
                 <div className="locations__item">
-                  <Link to={''} className="locations__item-link">
+                  <Link to={(transformRoute(`${AppRoute.Room}/${favoriteOffer.id}`))} className="locations__item-link">
                     <span>{favoriteOffer.city.name}</span>
                   </Link>
                 </div>
@@ -27,7 +27,7 @@ export const FavoriteCard: FC<FavoriteCardProps> = ({favoritesPlaces}) => (
               <div className="favorites__places">
                 <article className="favorites__card place-card">
                   <div className="favorites__image-wrapper place-card__image-wrapper">
-                    <Link to={''}>
+                    <Link to={(transformRoute(`${AppRoute.Room}/${favoriteOffer.id}`))}>
                       <img className="place-card__image" src={favoriteOffer.previewImage} width="150"
                         height="110"
                         alt={''}
@@ -37,7 +37,7 @@ export const FavoriteCard: FC<FavoriteCardProps> = ({favoritesPlaces}) => (
                   <div className="favorites__card-info place-card__info">
                     <div className="place-card__price-wrapper">
                       <div className="place-card__price">
-                        <b className="place-card__price-value">${favoriteOffer.price}</b>
+                        <b className="place-card__price-value">&euro;{favoriteOffer.price}</b>
                         <span className="place-card__price-text">&#47;&nbsp;night</span>
                       </div>
                       <button className="place-card__bookmark-button place-card__bookmark-button--active button"
