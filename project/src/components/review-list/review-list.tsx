@@ -55,12 +55,12 @@ export const ReviewList: FC<ReviewListProps> = ({reviews, isAuthorizedUser, hote
                 {review.comment}
               </p>
               <time className="reviews__time" dateTime={review.date}>
-                {dayjs(review.date).format('MMMM D, YYYY')}
+                {dayjs(review.date).format('MMMM YYYY')}
               </time>
             </div>
           </li>
         </ul>
-      ))}
+      )).reverse()}
       {isAuthorizedUser &&
         <ReviewForm isReviewLoaded={isReviewLoaded} hotelId={hotelId}/>}
     </section>

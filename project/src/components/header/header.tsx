@@ -44,7 +44,9 @@ export const Header: FC<HeaderProps> = ({isLoginPage}) => {
                     <Link to={AppRoute.Favorites}
                       className="header__nav-link header__nav-link--profile"
                     >
-                      <div className="header__avatar-wrapper user__avatar-wrapper">
+                      <div className="header__avatar-wrapper user__avatar-wrapper"
+                        style={{backgroundImage: `url(${user?.avatarUrl})`, borderRadius: '30px'}}
+                      >
                       </div>
                       <span className="header__user-name user__name">{user?.email}</span>
                       <span className="header__favorite-count">{favoritesOffers.length}</span>
