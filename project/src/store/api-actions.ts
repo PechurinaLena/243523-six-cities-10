@@ -91,7 +91,7 @@ export const fetchOfferAction = createAsyncThunk<void, { hotelId: number | undef
   },
 );
 
-export const fetchNearbyOffersAction = createAsyncThunk<void, { hotelId: number | undefined }, {
+export const fetchNearbyOffersAction = createAsyncThunk<void, { hotelId: number | null }, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
