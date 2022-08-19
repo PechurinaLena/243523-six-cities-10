@@ -163,7 +163,9 @@ export const Room: FC = () => {
           <section className="near-places places">
             <h2 className="near-places__title">{Titles.RoomNearByPlaces}</h2>
             <div className="near-places__list places__list">
-              <CardList cityOffers={nearbyOffers} onListItemHover={onListItemHover}/>
+              <CardList cityOffers={nearbyOffers} onListItemHover={onListItemHover}
+                isAuthorizedUser={isAuthorizedUser}
+              />
             </div>
           </section>
         </div>

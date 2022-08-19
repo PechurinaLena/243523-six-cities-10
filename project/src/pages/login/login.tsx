@@ -30,7 +30,7 @@ export const Login: FC = () => {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (loginRef.current !== null && passwordRef.current !== null) {
+    if (loginRef.current !== null && passwordRef.current !== null && passwordRef.current?.value.length >= 1) {
       onSubmit({
         login: loginRef.current.value,
         password: passwordRef.current.value,
