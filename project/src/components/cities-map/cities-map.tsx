@@ -42,7 +42,7 @@ export const CitiesMap: FC<CitiesMapProps> = ({cityOffers, selectedCard, current
         markers.push(marker);
         marker
           .setIcon(
-            selectedCard && selectedCard === id
+            selectedCard === id && selectedCard !== undefined
               ? currentIcon
               : defaultIcon
           )
