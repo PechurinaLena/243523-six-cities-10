@@ -156,7 +156,9 @@ export const Room: FC = () => {
             </div>
           </div>
           <section className="property__map map">
-            <CitiesMap cityOffers={nearbyOffers} currentCity={currentCity} selectedCard={selectedCard}/>
+            <CitiesMap cityOffers={nearbyOffers?.concat(currentOffer)} currentCity={currentCity}
+              selectedCard={selectedCard}
+            />
           </section>
         </section>
         <div className="container">
