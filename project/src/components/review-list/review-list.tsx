@@ -23,6 +23,10 @@ export const ReviewList: FC<ReviewListProps> = ({reviews, isAuthorizedUser, hote
     }
   }, [isReviewLoaded, dispatch, hotelId]);
 
+  const filteredReviews = reviews.slice(0, 10).sort(
+    (reviewA, reviewB) => new Date(reviewA.date).getTime() - new Date(reviewB.date).getTime(),
+  );
+
   return (
     <section className="property__reviews reviews">
       <h2 className="reviews__title">Reviews &middot;
@@ -30,7 +34,7 @@ export const ReviewList: FC<ReviewListProps> = ({reviews, isAuthorizedUser, hote
           {reviews.length}
         </span>
       </h2>
-      {reviews.map((review) => (
+      {filteredReviews.map((review) => (
         <ul className="reviews__list" key={review.id}>
           <li className="reviews__item">
             <div className="reviews__user user">
@@ -60,7 +64,7 @@ export const ReviewList: FC<ReviewListProps> = ({reviews, isAuthorizedUser, hote
             </div>
           </li>
         </ul>
-      )).reverse()}
+      ))}
       {isAuthorizedUser &&
         <ReviewForm isReviewLoaded={isReviewLoaded} hotelId={hotelId}/>}
     </section>
