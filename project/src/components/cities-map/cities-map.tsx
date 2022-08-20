@@ -38,7 +38,7 @@ export const CitiesMap: FC<CitiesMapProps> = ({cityOffers, selectedCard, current
           lat: location.latitude,
           lng: location.longitude,
         }).bindPopup(title);
-        map.flyTo([location.latitude, location.longitude], zoom, {duration: 1.5});
+        map.flyTo([location.latitude, location.longitude], zoom);
         markers.push(marker);
         marker
           .setIcon(
