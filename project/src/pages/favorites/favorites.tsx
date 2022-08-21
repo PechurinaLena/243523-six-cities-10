@@ -5,11 +5,7 @@ import Footer from 'components/footer';
 import FavoriteList from 'components/favorite-list';
 import FavoritesEmpty from 'components/favorites-empty';
 import {Titles} from 'components/app/const';
-import {store} from 'store';
 import {useAppSelector} from 'hooks';
-import {fetchFavoritesOffersAction} from 'store/api-actions';
-
-store.dispatch(fetchFavoritesOffersAction());
 
 export const Favorites: FC = () => {
   const {favoritesOffers} = useAppSelector((state) => state.OFFERS);

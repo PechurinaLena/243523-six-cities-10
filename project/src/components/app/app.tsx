@@ -9,13 +9,12 @@ import NotFound from 'pages/not-found';
 import PrivateRoute from 'components/private-route';
 import HistoryRouter from 'components/history-router';
 import Loader from 'components/loader';
-import {AppRoute, AuthorizationStatus, isCheckedAuth} from 'components/app/const';
+import {AppRoute, isCheckedAuth} from 'components/app/const';
 import browserHistory from 'browser-history';
 import {useAppSelector} from 'hooks';
 
 export const App: FC = () => {
   const {authorizationStatus, isDataLoaded} = useAppSelector((state) => state.USER);
-  const isAuthorizedUser = authorizationStatus === AuthorizationStatus.Auth;
 
   if (isCheckedAuth(authorizationStatus || isDataLoaded)) {
     return (
@@ -27,14 +26,11 @@ export const App: FC = () => {
     <HistoryRouter history={browserHistory}>
       <Routes>
         <Route path="/">
-          <Route
-            index
-            element={<Main isAuthorizedUser={isAuthorizedUser}/>}
-          />
+          <Route index element={<Main/>}/>
           <Route
             path={AppRoute.Favorites}
             element={
-              <PrivateRoute isAuthorizedUser={isAuthorizedUser}>
+              <PrivateRoute authorizationStatus={authorizationStatus}>
                 <Favorites/>
               </PrivateRoute>
             }

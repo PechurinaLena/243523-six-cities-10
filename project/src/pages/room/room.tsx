@@ -6,11 +6,11 @@ import CitiesMap from 'components/cities-map';
 import CardList from 'components/card-list';
 import Loader from 'components/loader';
 import ReviewList from 'components/review-list';
+import HostCard from 'components/host-card';
 import NotFound from 'pages/not-found';
 import {useAppDispatch, useAppSelector} from 'hooks';
 import {AppRoute, AuthorizationStatus, getRatingWidth, Titles} from 'components/app/const';
 import {fetchNearbyOffersAction, fetchOfferAction, fetchOfferStatusAction} from 'store/api-actions';
-import {setSelectedPoint} from 'store/reducers/offer/action';
 
 export const Room: FC = () => {
   const [isNearByOffersUpdated, setNearByOffersUpdated] = useState(false);
@@ -44,8 +44,6 @@ export const Room: FC = () => {
       setNearByOffersUpdated(true);
     }
   }, [isNearByOffersUpdated, hotelId, dispatch, isFavoriteOfferLoaded]);
-
-  const onListItemHover = (listItemId: number) => dispatch(setSelectedPoint(listItemId));
 
   const handleClickToBookMark = () => {
     if (!isAuthorizedUser) {
@@ -129,29 +127,7 @@ export const Room: FC = () => {
                   ))}
                 </ul>
               </div>
-              <div className="property__host">
-                <h2 className="property__host-title">Meet the host</h2>
-                <div className="property__host-user user">
-                  <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src={currentOffer.host.avatarUrl} width="74"
-                      height="74"
-                      alt="Host avatar"
-                    />
-                  </div>
-                  <span className="property__user-name">
-                    {currentOffer.host.name}
-                  </span>
-                  {currentOffer.host.isPro &&
-                    <span className="property__user-status">
-                      Pro
-                    </span>}
-                </div>
-                <div className="property__description">
-                  <p className="property__text">
-                    {currentOffer.description}
-                  </p>
-                </div>
-              </div>
+              <HostCard currentOffer={currentOffer}/>
               <ReviewList reviews={reviews} hotelId={hotelId} isAuthorizedUser={isAuthorizedUser}/>
             </div>
           </div>
@@ -165,9 +141,7 @@ export const Room: FC = () => {
           <section className="near-places places">
             <h2 className="near-places__title">{Titles.RoomNearByPlaces}</h2>
             <div className="near-places__list places__list">
-              <CardList cityOffers={nearbyOffers} onListItemHover={onListItemHover}
-                isAuthorizedUser={isAuthorizedUser}
-              />
+              <CardList cityOffers={nearbyOffers}/>
             </div>
           </section>
         </div>

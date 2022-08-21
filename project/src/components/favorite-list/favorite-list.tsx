@@ -14,6 +14,7 @@ export type FavoriteListProps = {
 
 export const FavoriteList: FC<FavoriteListProps> = ({favoritesOffers}) => {
   const dispatch = useAppDispatch();
+
   return (
     <ul className="favorites__list">
       {cities.map((city) => {

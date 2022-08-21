@@ -3,8 +3,8 @@ import {Link, useNavigate} from 'react-router-dom';
 
 import {Offer} from 'types/offers';
 import {AppRoute, getRatingWidth, transformRoute} from 'components/app/const';
-import {fetchNearbyOffersAction, fetchOfferStatusAction} from '../../store/api-actions';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {fetchNearbyOffersAction, fetchOfferStatusAction} from 'store/api-actions';
+import {useAppDispatch, useAppSelector} from 'hooks';
 
 export type CardProps = {
   card: Offer;
@@ -12,8 +12,9 @@ export type CardProps = {
   isAuthorizedUser: boolean
 }
 
-const Card: FC<CardProps> = ({card, onListItemHover, isAuthorizedUser}) => {
+const Card: FC<CardProps> = ({card, isAuthorizedUser, onListItemHover}) => {
   const [isFavoriteOfferMarked, setFavoriteOfferMarked] = useState(0);
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const {isFavoriteOfferLoaded} = useAppSelector((state) => state.OFFERS);
