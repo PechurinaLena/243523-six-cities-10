@@ -2,9 +2,9 @@ import {FC} from 'react';
 
 import Card from 'components/card';
 import {Offer} from 'types/offers';
-import {setSelectedPoint} from 'store/reducers/offer/action';
 import {useAppDispatch, useAppSelector} from 'hooks';
 import {AuthorizationStatus} from 'components/app/const';
+import {setSelectedPoint} from 'store/slices/offers-process/offers-process';
 
 export type CardListProps = {
   cityOffers: Offer[];
@@ -12,7 +12,6 @@ export type CardListProps = {
 
 export const CardList: FC<CardListProps> = ({cityOffers}) => {
   const dispatch = useAppDispatch();
-
   const {authorizationStatus} = useAppSelector((state) => state.USER);
   const isAuthorizedUser = authorizationStatus === AuthorizationStatus.Auth;
 

@@ -12,9 +12,12 @@ import Loader from 'components/loader';
 import {AppRoute, isCheckedAuth} from 'components/app/const';
 import browserHistory from 'browser-history';
 import {useAppSelector} from 'hooks';
+import {getAuthorizationStatus} from 'store/slices/user-process/selectors';
+import {getDataLoaded} from 'store/slices/data-process/selectors';
 
 export const App: FC = () => {
-  const {authorizationStatus, isDataLoaded} = useAppSelector((state) => state.USER);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isDataLoaded = useAppSelector(getDataLoaded);
 
   if (isCheckedAuth(authorizationStatus || isDataLoaded)) {
     return (

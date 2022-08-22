@@ -5,6 +5,8 @@ import {logoutAction} from 'store/api-actions';
 import {useAppDispatch, useAppSelector} from 'hooks';
 import {AppRoute, AuthorizationStatus} from 'components/app/const';
 import AuthorizationButton from 'components/authorization-button';
+import {getFavoriteOffers} from 'store/slices/data-process/selectors';
+import {getAuthorizationStatus, getUser} from 'store/slices/user-process/selectors';
 
 export type HeaderProps = {
   isLoginPage?: boolean;
@@ -13,8 +15,9 @@ export type HeaderProps = {
 export const Header: FC<HeaderProps> = ({isLoginPage}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const {authorizationStatus, user} = useAppSelector((state) => state.USER);
-  const {favoritesOffers} = useAppSelector((state) => state.OFFERS);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const user = useAppSelector(getUser);
+  const favoritesOffers = useAppSelector(getFavoriteOffers);
   const isAuthorizedUser = authorizationStatus === AuthorizationStatus.Auth;
 
   const handleLogin = (event: BaseSyntheticEvent) => {

@@ -7,11 +7,11 @@ import {fetchNewReviewAction} from 'store/api-actions';
 import {COMMENT_MIN_LENGTH} from 'components/app/const';
 
 export type ReviewFormProps = {
-  isReviewLoaded: boolean;
+  // isReviewLoaded: boolean;
   hotelId: number;
 }
 
-export const ReviewForm: FC<ReviewFormProps> = ({isReviewLoaded, hotelId}) => {
+export const ReviewForm: FC<ReviewFormProps> = ({hotelId}) => {
   const [rating, setRating] = useState(0);
   const [comment, setReview] = useState('');
   const [isEnabledSubmit, setEnabledSubmit] = useState(false);
@@ -49,7 +49,7 @@ export const ReviewForm: FC<ReviewFormProps> = ({isReviewLoaded, hotelId}) => {
             rating={item.id}
             isChecked={rating === item.id}
             handleChange={(star: number) => setRating(star)}
-            isReviewLoaded={isReviewLoaded}
+            // isReviewLoaded={isReviewLoaded}
           />
         )).reverse()}
       </div>

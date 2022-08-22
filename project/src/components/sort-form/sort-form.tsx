@@ -1,21 +1,22 @@
 import React, {FC} from 'react';
 
 import SortOption from 'components/sort-option';
-import {setOptionsShown, setSortingOffers} from 'store/reducers/offer/action';
 import {useAppDispatch, useAppSelector} from 'hooks';
+import {getOptionsShown, getSortingOffers} from 'store/slices/data-process/selectors';
+import {setOptionsShown, setSortingOffers} from 'store/slices/data-process/data-process';
 
 export const SortForm: FC = () => {
   const dispatch = useAppDispatch();
-  const {sortOffers, isSortOptionsShown} = useAppSelector((state) => state.OFFERS);
+  const sortOffers = useAppSelector(getSortingOffers);
+  const isSortOptionsShown = useAppSelector(getOptionsShown);
 
   const handleChangeVisibleOptions = (value: boolean) => {
     dispatch(setOptionsShown(value));
   };
 
-  const handleChangeOption = React.useCallback((option: string) => {
+  const handleChangeOption = (option: string) => {
     dispatch(setSortingOffers(option));
-  }, [dispatch]
-  );
+  };
 
   return (
     <form className="places__sorting" action="#" method="get"

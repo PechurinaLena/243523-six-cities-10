@@ -11,24 +11,27 @@ import NotFound from 'pages/not-found';
 import {useAppDispatch, useAppSelector} from 'hooks';
 import {AppRoute, AuthorizationStatus, getRatingWidth, Titles} from 'components/app/const';
 import {fetchNearbyOffersAction, fetchOfferAction, fetchOfferStatusAction} from 'store/api-actions';
+import {getCurrentOffer, getFavoriteDataLoaded, getNearbyOffers} from 'store/slices/data-process/selectors';
+import {getActiveCity, getSelectedPoint} from 'store/slices/offers-process/selectors';
 
 export const Room: FC = () => {
-  const [isNearByOffersUpdated, setNearByOffersUpdated] = useState(false);
+  const [isNearByOffersUpdated, setNearByOffersUpdated] = useState(true);
   const [isOfferUpdated, setOfferUpdated] = useState(false);
 
   const navigate = useNavigate();
   const params = useParams();
   const hotelId = Number(params.id);
   const dispatch = useAppDispatch();
-  const {isDataLoaded, authorizationStatus} = useAppSelector((state) => state.USER);
+
+  const {authorizationStatus} = useAppSelector((state) => state.USER);
   const {reviews} = useAppSelector((state) => state.COMMENTS);
-  const {
-    selectedCard,
-    currentCity,
-    nearbyOffers,
-    isFavoriteOfferLoaded,
-    currentOffer
-  } = useAppSelector((state) => state.OFFERS);
+
+  const currentOffer = useAppSelector(getCurrentOffer);
+  const currentCity = useAppSelector(getActiveCity);
+  const selectedCard = useAppSelector(getSelectedPoint);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const isFavoriteOfferLoaded = useAppSelector(getFavoriteDataLoaded);
+  const {isDataLoaded} = useAppSelector((state) => state.USER);
   const isAuthorizedUser = authorizationStatus === AuthorizationStatus.Auth;
 
   useEffect(() => {

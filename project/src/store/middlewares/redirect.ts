@@ -1,6 +1,6 @@
 import {Middleware} from 'redux';
 
-import {rootReducer} from 'store/reducers/root-reducer';
+import {rootReducer} from 'store/slices/root-reducer';
 import browserHistory from 'browser-history';
 
 type Reducer = ReturnType<typeof rootReducer>;

@@ -16,6 +16,7 @@ export type ReviewListProps = {
 export const ReviewList: FC<ReviewListProps> = ({reviews, isAuthorizedUser, hotelId}) => {
   const dispatch = useAppDispatch();
   const {isReviewLoaded} = useAppSelector((state) => state.COMMENTS);
+  //TODO change
 
   useEffect(() => {
     if (!isReviewLoaded) {
@@ -66,7 +67,7 @@ export const ReviewList: FC<ReviewListProps> = ({reviews, isAuthorizedUser, hote
         </ul>
       ))}
       {isAuthorizedUser &&
-        <ReviewForm isReviewLoaded={isReviewLoaded} hotelId={hotelId}/>}
+        <ReviewForm hotelId={hotelId}/>}
     </section>
   );
 };

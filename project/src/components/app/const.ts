@@ -1,3 +1,7 @@
+import {City, Offer} from 'types/offers';
+import {UserData} from 'types/user-data';
+import {Reviews} from 'types/reviews';
+
 export enum AppRoute {
   Login = '/login',
   Root = '/',
@@ -10,7 +14,7 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
   Favorite = '/favorite',
-  Reviews = '/comments',
+  Comments = '/comments',
 }
 
 export enum AuthorizationStatus {
@@ -34,8 +38,52 @@ export const SortType = {
   TopRated: 'Top rated first',
 };
 
+export enum NameSpace {
+  User = 'USER',
+  Data = 'DATA',
+  Offers = 'OFFERS',
+  Comments = 'COMMENTS',
+}
+
+export type DataProcess = {
+  offers: Offer[],
+  currentOffer: Offer | null,
+  favoritesOffers: Offer[],
+  nearbyOffers: Offer[],
+  currentCity: City,
+  selectedCard: number,
+  isFavoriteOfferLoaded: boolean,
+  sortOffers: string,
+  isSortOptionsShown: boolean,
+  isDataLoaded: boolean,
+}
+
+export type OffersProcess = {
+  offers: Offer[],
+  currentCity: City,
+  selectedCard: number,
+  sortOffers: string,
+  isSortOptionsShown: boolean,
+}
+
+export type UserProcess = {
+  user: UserData | null,
+  authorizationStatus: AuthorizationStatus,
+  isDataLoaded: boolean,
+}
+
+export type ReviewsProcess = {
+  reviews: Reviews[],
+  newReview: Reviews | null,
+  isReviewLoaded: boolean,
+  isDataLoaded: boolean
+}
+
 export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.UnKnown;
+
+export const getSortOffers = (offer: Offer[], type: 'ASC' | 'DESC', key: keyof Pick<Offer, 'id' | 'price' | 'rating'>) =>
+  offer.sort((a, b) => type === 'ASC' ? a[key] - b[key] : b[key] - a[key]);
 
 export const getRatingWidth = (value: number) => Math.round(value) / 5 * 100;
 

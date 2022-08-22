@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import {FC} from 'react';
 
 import {SortType} from 'components/app/const';
 
@@ -26,4 +26,4 @@ export const SortOption: FC<SortOptionProps> = ({isSortOptionsShown, sortOffers,
   </ul>
 );
 
-export default React.memo(SortOption);
+export default SortOption;

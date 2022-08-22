@@ -3,8 +3,8 @@ import {Link} from 'react-router-dom';
 
 import {cities} from 'mocks/cities';
 import {City} from 'types/offers';
-import {setActiveCity} from 'store/reducers/offer/action';
-import {useAppDispatch} from 'hooks';
+import {useAppDispatch,} from 'hooks';
+import {setActiveCity} from 'store/slices/offers-process/offers-process';
 
 export type CityListProps = {
   currentCity: City;
