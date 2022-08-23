@@ -51,7 +51,6 @@ export type DataProcess = {
   favoritesOffers: Offer[],
   nearbyOffers: Offer[],
   currentCity: City,
-  selectedCard: number,
   isFavoriteOfferLoaded: boolean,
   sortOffers: string,
   isSortOptionsShown: boolean,
@@ -78,6 +77,14 @@ export type ReviewsProcess = {
   isReviewLoaded: boolean,
   isDataLoaded: boolean
 }
+
+export const RatingStars = [
+  {id: 1, title: 'terribly'},
+  {id: 2, title: 'badly'},
+  {id: 3, title: 'not bad'},
+  {id: 4, title: 'good'},
+  {id: 5, title: 'perfect'}
+];
 
 export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.UnKnown;

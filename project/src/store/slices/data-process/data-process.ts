@@ -23,7 +23,6 @@ export const initialState: DataProcess = {
     },
     name: 'Paris',
   },
-  selectedCard: 0,
   isFavoriteOfferLoaded: false,
   sortOffers: SortType.Popular,
   isSortOptionsShown: false,
@@ -73,11 +72,11 @@ export const dataProcess = createSlice({
         state.isDataLoaded = false;
       })
       .addCase(fetchFavoritesOffersAction.pending, (state) => {
-        state.isDataLoaded = true;
+        state.isFavoriteOfferLoaded = true;
       })
       .addCase(fetchFavoritesOffersAction.fulfilled, (state, action) => {
         state.favoritesOffers = action.payload;
-        state.isDataLoaded = false;
+        state.isFavoriteOfferLoaded = false;
       })
       .addCase(fetchNearbyOffersAction.pending, (state) => {
         state.isDataLoaded = true;

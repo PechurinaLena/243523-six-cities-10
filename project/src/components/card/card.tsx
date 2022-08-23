@@ -1,5 +1,5 @@
-import {FC, useState} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {FC, useEffect, useState} from 'react';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 
 import {Offer} from 'types/offers';
 import {AppRoute, getRatingWidth, transformRoute} from 'components/app/const';
@@ -8,17 +8,23 @@ import {getFavoriteDataLoaded} from 'store/slices/data-process/selectors';
 import {useAppDispatch, useAppSelector} from 'hooks';
 
 export type CardProps = {
-  card: Offer;
+  card: Offer
   onListItemHover: (listItemId: number) => void
   isAuthorizedUser: boolean
+  isNearByCard?: boolean
 }
 
-const Card: FC<CardProps> = ({card, isAuthorizedUser, onListItemHover}) => {
+const Card: FC<CardProps> = ({card, isAuthorizedUser, onListItemHover, isNearByCard}) => {
   const [isFavoriteOfferMarked, setFavoriteOfferMarked] = useState(0);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const isFavoriteOfferLoaded = useAppSelector(getFavoriteDataLoaded);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
   const handleClickToBookMark = () => {
     if (!isAuthorizedUser) {
@@ -37,7 +43,7 @@ const Card: FC<CardProps> = ({card, isAuthorizedUser, onListItemHover}) => {
   };
 
   return (
-    <article className="cities__card place-card"
+    <article className={`${isNearByCard ? 'near-places__card' : 'cities__card'} place-card`}
       onMouseEnter={() => onListItemHover(card.id)}
       onMouseLeave={() => onListItemHover(0)}
     >
@@ -68,7 +74,7 @@ const Card: FC<CardProps> = ({card, isAuthorizedUser, onListItemHover}) => {
             >
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
-            <span className="visually-hidden">To bookmarks</span>
+            <span className="visually-hidden">{(card?.isFavorite) ? 'In bookmarks' : 'To bookmarks'}</span>
           </button>
         </div>
         <div className="place-card__rating rating">

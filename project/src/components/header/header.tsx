@@ -1,7 +1,7 @@
-import {BaseSyntheticEvent, FC} from 'react';
+import {BaseSyntheticEvent, FC, useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 
-import {logoutAction} from 'store/api-actions';
+import {fetchFavoritesOffersAction, logoutAction} from 'store/api-actions';
 import {useAppDispatch, useAppSelector} from 'hooks';
 import {AppRoute, AuthorizationStatus} from 'components/app/const';
 import AuthorizationButton from 'components/authorization-button';
@@ -19,6 +19,12 @@ export const Header: FC<HeaderProps> = ({isLoginPage}) => {
   const user = useAppSelector(getUser);
   const favoritesOffers = useAppSelector(getFavoriteOffers);
   const isAuthorizedUser = authorizationStatus === AuthorizationStatus.Auth;
+
+  useEffect(() => {
+    if (isAuthorizedUser) {
+      dispatch(fetchFavoritesOffersAction());
+    }
+  }, [dispatch, isAuthorizedUser]);
 
   const handleLogin = (event: BaseSyntheticEvent) => {
     event.preventDefault();

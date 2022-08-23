@@ -6,7 +6,7 @@ import FavoriteList from 'components/favorite-list';
 import FavoritesEmpty from 'components/favorites-empty';
 import {Titles} from 'components/app/const';
 import {useAppSelector} from 'hooks';
-import {getFavoriteOffers} from '../../store/slices/data-process/selectors';
+import {getFavoriteOffers} from 'store/slices/data-process/selectors';
 
 export const Favorites: FC = () => {
   const favoritesOffers = useAppSelector(getFavoriteOffers);

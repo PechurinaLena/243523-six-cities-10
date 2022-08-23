@@ -5,14 +5,16 @@ import {Offer} from 'types/offers';
 import {useAppDispatch, useAppSelector} from 'hooks';
 import {AuthorizationStatus} from 'components/app/const';
 import {setSelectedPoint} from 'store/slices/offers-process/offers-process';
+import {getAuthorizationStatus} from 'store/slices/user-process/selectors';
 
 export type CardListProps = {
   cityOffers: Offer[];
+  isNearByCard?: boolean;
 }
 
-export const CardList: FC<CardListProps> = ({cityOffers}) => {
+export const CardList: FC<CardListProps> = ({cityOffers, isNearByCard}) => {
   const dispatch = useAppDispatch();
-  const {authorizationStatus} = useAppSelector((state) => state.USER);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isAuthorizedUser = authorizationStatus === AuthorizationStatus.Auth;
 
   const onListItemHover = (listItemId: number) => dispatch(setSelectedPoint(listItemId));
@@ -23,6 +25,7 @@ export const CardList: FC<CardListProps> = ({cityOffers}) => {
         <Card card={card} key={card.id}
           isAuthorizedUser={isAuthorizedUser}
           onListItemHover={onListItemHover}
+          isNearByCard={isNearByCard}
         />
       ))}
     </>

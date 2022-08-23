@@ -8,6 +8,7 @@ import {UserData} from 'types/user-data';
 import {Offer} from 'types/offers';
 import {Reviews} from 'types/reviews';
 import {APIRoute, AppRoute} from 'components/app/const';
+
 import {redirectToRoute} from './action';
 
 export const checkAuthAction = createAsyncThunk<UserData, undefined, {

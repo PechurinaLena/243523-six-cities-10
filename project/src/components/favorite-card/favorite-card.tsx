@@ -5,6 +5,7 @@ import {Offer} from 'types/offers';
 import {AppRoute, AuthorizationStatus, getRatingWidth, transformRoute} from 'components/app/const';
 import {fetchOfferStatusAction} from 'store/api-actions';
 import {useAppDispatch, useAppSelector} from 'hooks';
+import {getAuthorizationStatus} from 'store/slices/user-process/selectors';
 
 export type FavoriteCardProps = {
   offersByCity: Offer[];
@@ -14,7 +15,7 @@ export const FavoriteCard: FC<FavoriteCardProps> = ({offersByCity}) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const {authorizationStatus} = useAppSelector((state) => state.USER);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isAuthorizedUser = authorizationStatus === AuthorizationStatus.Auth;
 
   return (
@@ -50,7 +51,7 @@ export const FavoriteCard: FC<FavoriteCardProps> = ({offersByCity}) => {
                 <svg className="place-card__bookmark-icon" width="18" height="19">
                   <use xlinkHref="#icon-bookmark"></use>
                 </svg>
-                <span className="visually-hidden">In bookmarks</span>
+                <span className="visually-hidden">{(offer.isFavorite) ? 'In bookmarks' : 'To bookmarks'}</span>
               </button>
             </div>
             <div className="place-card__rating rating">

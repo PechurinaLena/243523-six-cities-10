@@ -1,13 +1,11 @@
 import {ChangeEvent, FC, FormEvent, useState} from 'react';
 
 import RatingStar from 'components/rating-star';
-import {RatingStars} from 'mocks/reviews';
 import {useAppDispatch} from 'hooks';
 import {fetchNewReviewAction} from 'store/api-actions';
-import {COMMENT_MIN_LENGTH} from 'components/app/const';
+import {COMMENT_MIN_LENGTH, RatingStars} from 'components/app/const';
 
 export type ReviewFormProps = {
-  // isReviewLoaded: boolean;
   hotelId: number;
 }
 
@@ -49,7 +47,6 @@ export const ReviewForm: FC<ReviewFormProps> = ({hotelId}) => {
             rating={item.id}
             isChecked={rating === item.id}
             handleChange={(star: number) => setRating(star)}
-            // isReviewLoaded={isReviewLoaded}
           />
         )).reverse()}
       </div>

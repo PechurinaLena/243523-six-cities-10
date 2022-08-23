@@ -13,6 +13,8 @@ import {AppRoute, AuthorizationStatus, getRatingWidth, Titles} from 'components/
 import {fetchNearbyOffersAction, fetchOfferAction, fetchOfferStatusAction} from 'store/api-actions';
 import {getCurrentOffer, getFavoriteDataLoaded, getNearbyOffers} from 'store/slices/data-process/selectors';
 import {getActiveCity, getSelectedPoint} from 'store/slices/offers-process/selectors';
+import {getReviews} from 'store/slices/reviews-process/selectors';
+import {getAuthorizationStatus} from 'store/slices/user-process/selectors';
 
 export const Room: FC = () => {
   const [isNearByOffersUpdated, setNearByOffersUpdated] = useState(true);
@@ -23,15 +25,13 @@ export const Room: FC = () => {
   const hotelId = Number(params.id);
   const dispatch = useAppDispatch();
 
-  const {authorizationStatus} = useAppSelector((state) => state.USER);
-  const {reviews} = useAppSelector((state) => state.COMMENTS);
-
+  const reviews = useAppSelector(getReviews);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const currentOffer = useAppSelector(getCurrentOffer);
   const currentCity = useAppSelector(getActiveCity);
   const selectedCard = useAppSelector(getSelectedPoint);
   const nearbyOffers = useAppSelector(getNearbyOffers);
   const isFavoriteOfferLoaded = useAppSelector(getFavoriteDataLoaded);
-  const {isDataLoaded} = useAppSelector((state) => state.USER);
   const isAuthorizedUser = authorizationStatus === AuthorizationStatus.Auth;
 
   useEffect(() => {
@@ -59,8 +59,8 @@ export const Room: FC = () => {
     setOfferUpdated(true);
   };
 
-  if (isDataLoaded) {
-    return <Loader/>;
+  if (currentOffer === null) {
+    return <NotFound/>;
   }
 
   return currentOffer ?
@@ -97,7 +97,7 @@ export const Room: FC = () => {
                   >
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
-                  <span className="visually-hidden">To bookmarks</span>
+                  <span className="visually-hidden">{(currentOffer.isFavorite) ? 'In bookmarks' : 'To bookmarks'}</span>
                 </button>
               </div>
               <div className="property__rating rating">
@@ -144,14 +144,14 @@ export const Room: FC = () => {
           <section className="near-places places">
             <h2 className="near-places__title">{Titles.RoomNearByPlaces}</h2>
             <div className="near-places__list places__list">
-              <CardList cityOffers={nearbyOffers}/>
+              <CardList cityOffers={nearbyOffers} isNearByCard/>
             </div>
           </section>
         </div>
       </main>
     </div>
     :
-    <NotFound/>;
+    <Loader/>;
 };
 
 export default Room;

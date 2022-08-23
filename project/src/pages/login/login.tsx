@@ -3,12 +3,12 @@ import {Link, useNavigate} from 'react-router-dom';
 
 import Header from 'components/header';
 import {AppRoute, getRandomCity, Titles} from 'components/app/const';
-import {loginAction} from 'store/api-actions';
-import {useAppDispatch} from 'hooks';
 import {AuthData} from 'types/auth-data';
 import {City} from 'types/offers';
-import {cities} from 'mocks/cities';
+import {useAppDispatch} from 'hooks';
+import {loginAction} from 'store/api-actions';
 import {setActiveCity} from 'store/slices/offers-process/offers-process';
+import {cities} from 'mocks/cities';
 
 export const Login: FC = () => {
   const loginRef = useRef<HTMLInputElement | null>(null);

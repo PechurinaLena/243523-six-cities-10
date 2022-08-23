@@ -6,6 +6,7 @@ import {getRatingWidth} from 'components/app/const';
 import {fetchReviewsAction} from 'store/api-actions';
 import {useAppDispatch, useAppSelector} from 'hooks';
 import {Reviews} from 'types/reviews';
+import {getReviewLoaded} from 'store/slices/reviews-process/selectors';
 
 export type ReviewListProps = {
   reviews: Reviews[];
@@ -15,8 +16,7 @@ export type ReviewListProps = {
 
 export const ReviewList: FC<ReviewListProps> = ({reviews, isAuthorizedUser, hotelId}) => {
   const dispatch = useAppDispatch();
-  const {isReviewLoaded} = useAppSelector((state) => state.COMMENTS);
-  //TODO change
+  const isReviewLoaded = useAppSelector(getReviewLoaded);
 
   useEffect(() => {
     if (!isReviewLoaded) {

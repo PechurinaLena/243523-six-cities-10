@@ -8,7 +8,7 @@ import MainEmpty from 'components/main-empty';
 import SortForm from 'components/sort-form';
 import Loader from 'components/loader';
 import {getActiveCity, getSelectedPoint} from 'store/slices/offers-process/selectors';
-import {getOffers} from 'store/slices/data-process/selectors';
+import {getDataLoaded, getOffers} from 'store/slices/data-process/selectors';
 import {Titles} from 'components/app/const';
 import {useAppSelector} from 'hooks';
 
@@ -16,7 +16,7 @@ const Main: FC = () => {
   const offers = useAppSelector(getOffers);
   const currentCity = useAppSelector(getActiveCity);
   const selectedCard = useAppSelector(getSelectedPoint);
-  const {isDataLoaded} = useAppSelector((state) => state.USER);
+  const isDataLoaded = useAppSelector(getDataLoaded);
   const cityOffers = offers.filter((offer) => offer.city.name === currentCity.name);
 
   return !isDataLoaded && cityOffers ?
