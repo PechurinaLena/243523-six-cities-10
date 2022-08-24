@@ -1,5 +1,6 @@
 import {FC} from 'react';
 import {Link} from 'react-router-dom';
+import {AppRoute} from 'components/app/const';
 
 const NotFound: FC = () => (
   <section style={{width: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#f5f5f5'}}>
@@ -42,7 +43,7 @@ const NotFound: FC = () => (
         backgroundColor: '#4481c3',
       }}
       >
-        <Link to='/'>Вернуться на главную страницу
+        <Link to={AppRoute.Root}>Вернуться на главную страницу
         </Link>
       </button>
     </div>

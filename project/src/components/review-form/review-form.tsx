@@ -1,31 +1,46 @@
 import {ChangeEvent, FC, FormEvent, useState} from 'react';
 
 import RatingStar from 'components/rating-star';
-import {RatingStarTitles} from 'mocks/reviews';
+import {useAppDispatch} from 'hooks';
+import {fetchNewReviewAction} from 'store/api-actions';
+import {COMMENT_MIN_LENGTH, RatingStars} from 'components/app/const';
 
-export const ReviewForm: FC = () => {
+export type ReviewFormProps = {
+  hotelId: number;
+}
+
+export const ReviewForm: FC<ReviewFormProps> = ({hotelId}) => {
   const [rating, setRating] = useState(0);
-  const [review, setReview] = useState('');
+  const [comment, setReview] = useState('');
   const [isEnabledSubmit, setEnabledSubmit] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   const handleChange = ({target}: ChangeEvent<HTMLTextAreaElement>): void => {
     setReview(target.value);
-    if (target.value.length >= 50) {
+    if (target.value.length >= COMMENT_MIN_LENGTH) {
       setEnabledSubmit(true);
     }
   };
 
-  const handleSubmit = (event: FormEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    setReview(review);
-    setRating(rating);
+  const onSubmit = () => {
+    dispatch(fetchNewReviewAction({comment, rating, hotelId}));
+    setEnabledSubmit(false);
+  };
+
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    setEnabledSubmit(true);
+    onSubmit();
+    setRating(0);
+    setReview('');
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method='post' onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        {RatingStarTitles.map((item) => (
+        {RatingStars.map((item) => (
           <RatingStar
             key={item.id}
             ratingTitle={item.title}
@@ -35,7 +50,7 @@ export const ReviewForm: FC = () => {
           />
         )).reverse()}
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review" value={review}
+      <textarea className="reviews__textarea form__textarea" id="comment" name="comment" value={comment}
         placeholder="Tell how was your stay, what you like and what can be improved" onChange={handleChange}
       >
       </textarea>
@@ -44,8 +59,8 @@ export const ReviewForm: FC = () => {
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay
           with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={!isEnabledSubmit}
-          onSubmit={handleSubmit}
+        <button className="reviews__submit form__submit button" type="submit"
+          disabled={!isEnabledSubmit}
         >Submit
         </button>
       </div>

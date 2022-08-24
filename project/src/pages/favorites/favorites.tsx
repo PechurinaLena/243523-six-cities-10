@@ -2,28 +2,24 @@ import {FC} from 'react';
 
 import Header from 'components/header';
 import Footer from 'components/footer';
-import FavoriteCard from 'components/favorite-card';
+import FavoriteList from 'components/favorite-list';
 import FavoritesEmpty from 'components/favorites-empty';
-import {Offer} from 'types/offers';
-import {Titles} from 'types/const';
+import {Titles} from 'components/app/const';
+import {useAppSelector} from 'hooks';
+import {getFavoriteOffers} from 'store/slices/data-process/selectors';
 
-export type FavoritesProps = {
-  offers: Offer[];
-}
-
-export const Favorites: FC<FavoritesProps> = ({offers}) => {
-  const favoritesPlaces = offers.filter((item: Offer) => item.isFavorite);
+export const Favorites: FC = () => {
+  const favoritesOffers = useAppSelector(getFavoriteOffers);
 
   return (
     <div className="page">
       <Header/>
-      {favoritesPlaces ?
+      {favoritesOffers.length !== 0 ?
         <main className="page__main page__main--favorites">
           <div className="page__favorites-container container">
             <section className="favorites">
               <h1 className="favorites__title">{Titles.FavoriteTitle}</h1>
-              {favoritesPlaces &&
-                <FavoriteCard favoritesPlaces={favoritesPlaces}/>}
+              <FavoriteList favoritesOffers={favoritesOffers}/>
             </section>
           </div>
         </main>

@@ -1,21 +1,32 @@
 import {MutableRefObject, useEffect, useRef, useState} from 'react';
-import {Map, TileLayer} from 'leaflet';
+import L, {Map, TileLayer} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import {City} from 'types/offers';
+import {cities} from 'mocks/cities';
 
 export const useMap = (currentCity: City, mapRef: MutableRefObject<HTMLElement | null>): Map | null => {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
+  const [currentCityOffer, setCurrentCityOffer] = useState<string>(currentCity.name);
+
+  const currentPoint = cities.find((city) => city.name === currentCity.name);
+
+  if (currentPoint) {
+    if (currentPoint?.name !== currentCityOffer) {
+      map?.setView(new L.LatLng(currentPoint.location.latitude, currentPoint.location.longitude), currentPoint.location.zoom);
+      setCurrentCityOffer(currentPoint.name);
+    }
+  }
 
   useEffect(() => {
-    if (mapRef.current !== null && !isRenderedRef.current) {
+    if (mapRef.current !== null && !isRenderedRef.current && currentPoint && map === null) {
       const instance = new Map(mapRef.current, {
         center: {
-          lat: currentCity.location.latitude,
-          lng: currentCity.location.longitude,
+          lat: currentPoint.location.latitude,
+          lng: currentPoint.location.longitude,
         },
-        zoom: currentCity.location.zoom,
+        zoom: currentPoint.location.zoom,
       });
 
       new TileLayer(
@@ -27,7 +38,7 @@ export const useMap = (currentCity: City, mapRef: MutableRefObject<HTMLElement |
       setMap(instance);
       isRenderedRef.current = true;
     }
-  }, [mapRef, map, currentCity]);
+  }, [mapRef, map, currentPoint]);
 
   return map;
 };

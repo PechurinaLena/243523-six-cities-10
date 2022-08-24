@@ -6,14 +6,22 @@ export type MainEmptyProps = {
 }
 
 export const MainEmpty: FC<MainEmptyProps> = ({currentCity}) => (
-  <section className="cities__no-places">
-    <div className="cities__status-wrapper tabs__content">
-      <b className="cities__status">No places to stay available</b>
-      <p className="cities__status-description">We could not find any property available at the moment in
-        {' '}{currentCity.name}
-      </p>
+  <div className="cities">
+    <div className="cities__places-container container">
+      <section className="cities__no-places">
+        <div className="cities__status-wrapper tabs__content">
+          <b className="cities__status">No places to stay available</b>
+          <p className="cities__status-description">We could not find any property available at the moment in
+            {' '}{currentCity.name}
+          </p>
+        </div>
+      </section>
+      <div className="cities__right-section">
+        <section className="cities__map map">
+        </section>
+      </div>
     </div>
-  </section>
+  </div>
 );
 
 export default MainEmpty;
