@@ -1,8 +1,8 @@
-import {FC, useEffect, useState} from 'react';
+import {FC, useEffect} from 'react';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 
 import {Offer} from 'types/offers';
-import {AppRoute, getRatingWidth, transformRoute} from 'components/app/const';
+import {AppRoute, FavoriteStatus, getRatingWidth, Numbers, transformRoute} from 'components/app/const';
 import {fetchNearbyOffersAction, fetchOfferStatusAction} from 'store/api-actions';
 import {getFavoriteDataLoaded} from 'store/slices/data-process/selectors';
 import {useAppDispatch, useAppSelector} from 'hooks';
@@ -15,37 +15,33 @@ export type CardProps = {
 }
 
 const Card: FC<CardProps> = ({card, isAuthorizedUser, onListItemHover, isNearByCard}) => {
-  const [isFavoriteOfferMarked, setFavoriteOfferMarked] = useState(0);
-
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation();
   const isFavoriteOfferLoaded = useAppSelector(getFavoriteDataLoaded);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo(Numbers.Zero, Numbers.Zero);
   }, [location]);
 
   const handleClickToBookMark = () => {
-    if (!isAuthorizedUser) {
+    if (isAuthorizedUser) {
+      dispatch(fetchOfferStatusAction({
+        hotelId: card.id,
+        status: card.isFavorite ? FavoriteStatus.Remove : FavoriteStatus.Add
+      }));
+      if (isFavoriteOfferLoaded) {
+        dispatch(fetchNearbyOffersAction({hotelId: card.id}));
+      }
+    } else {
       navigate(AppRoute.Login);
-    }
-    dispatch(fetchOfferStatusAction({
-      hotelId: card.id,
-      status: isFavoriteOfferMarked ? 0 : 1
-    }));
-
-    setFavoriteOfferMarked(1);
-
-    if (isFavoriteOfferLoaded) {
-      dispatch(fetchNearbyOffersAction({hotelId: card.id}));
     }
   };
 
   return (
     <article className={`${isNearByCard ? 'near-places__card' : 'cities__card'} place-card`}
       onMouseEnter={() => onListItemHover(card.id)}
-      onMouseLeave={() => onListItemHover(0)}
+      onMouseLeave={() => onListItemHover(Numbers.Zero)}
     >
       {card.isPremium &&
         <div className="place-card__mark">
@@ -74,7 +70,7 @@ const Card: FC<CardProps> = ({card, isAuthorizedUser, onListItemHover, isNearByC
             >
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
-            <span className="visually-hidden">{(card?.isFavorite) ? 'In bookmarks' : 'To bookmarks'}</span>
+            <span className="visually-hidden">{card.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
           </button>
         </div>
         <div className="place-card__rating rating">
