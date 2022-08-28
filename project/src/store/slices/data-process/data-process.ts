@@ -90,7 +90,14 @@ export const dataProcess = createSlice({
       })
       .addCase(fetchOfferStatusAction.fulfilled, (state, action) => {
         state.currentOffer = action.payload;
-        state.isFavoriteOfferLoaded = true;
+        state.isFavoriteOfferLoaded = false;
+        state.offers = state.offers.map((offer) => offer.id === action.payload.id ?
+          {...offer, isFavorite: action.payload.isFavorite} : offer);
+        if (action.payload.isFavorite) {
+          state.favoritesOffers = [...state.favoritesOffers, action.payload];
+        } else {
+          state.favoritesOffers = state.favoritesOffers.filter(({id}) => id !== action.payload.id);
+        }
       });
   }
 });

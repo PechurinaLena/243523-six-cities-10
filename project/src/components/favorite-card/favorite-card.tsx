@@ -2,7 +2,7 @@ import {FC} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 
 import {Offer} from 'types/offers';
-import {AppRoute, AuthorizationStatus, getRatingWidth, transformRoute} from 'components/app/const';
+import {AppRoute, AuthorizationStatus, FavoriteStatus, getRatingWidth, transformRoute} from 'components/app/const';
 import {fetchOfferStatusAction} from 'store/api-actions';
 import {useAppDispatch, useAppSelector} from 'hooks';
 import {getAuthorizationStatus} from 'store/slices/user-process/selectors';
@@ -44,7 +44,7 @@ export const FavoriteCard: FC<FavoriteCardProps> = ({offersByCity}) => {
                   }
                   dispatch(fetchOfferStatusAction({
                     hotelId: offer.id,
-                    status: offer?.isFavorite ? 0 : 1
+                    status: offer?.isFavorite ? FavoriteStatus.Remove : FavoriteStatus.Add
                   }));
                 }}
               >

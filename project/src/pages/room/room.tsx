@@ -1,4 +1,4 @@
-import {FC, useEffect, useState} from 'react';
+import {FC, useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 
 import Header from 'components/header';
@@ -9,7 +9,7 @@ import ReviewList from 'components/review-list';
 import HostCard from 'components/host-card';
 import NotFound from 'pages/not-found';
 import {useAppDispatch, useAppSelector} from 'hooks';
-import {AppRoute, AuthorizationStatus, getRatingWidth, Titles} from 'components/app/const';
+import {AppRoute, AuthorizationStatus, FavoriteStatus, getRatingWidth, Numbers, Titles} from 'components/app/const';
 import {fetchNearbyOffersAction, fetchOfferAction, fetchOfferStatusAction} from 'store/api-actions';
 import {getCurrentOffer, getFavoriteDataLoaded, getNearbyOffers} from 'store/slices/data-process/selectors';
 import {getActiveCity, getSelectedPoint} from 'store/slices/offers-process/selectors';
@@ -17,9 +17,6 @@ import {getReviews} from 'store/slices/reviews-process/selectors';
 import {getAuthorizationStatus} from 'store/slices/user-process/selectors';
 
 export const Room: FC = () => {
-  const [isNearByOffersUpdated, setNearByOffersUpdated] = useState(true);
-  const [isOfferUpdated, setOfferUpdated] = useState(false);
-
   const navigate = useNavigate();
   const params = useParams();
   const hotelId = Number(params.id);
@@ -35,28 +32,21 @@ export const Room: FC = () => {
   const isAuthorizedUser = authorizationStatus === AuthorizationStatus.Auth;
 
   useEffect(() => {
-    if (!isOfferUpdated || !isFavoriteOfferLoaded) {
-      dispatch(fetchOfferAction({hotelId}));
-      setOfferUpdated(true);
-    }
-  }, [isOfferUpdated, hotelId, dispatch, isFavoriteOfferLoaded]);
-
-  useEffect(() => {
-    if (!isNearByOffersUpdated || !isFavoriteOfferLoaded) {
+    if (!isFavoriteOfferLoaded) {
       dispatch(fetchNearbyOffersAction({hotelId}));
-      setNearByOffersUpdated(true);
+      dispatch(fetchOfferAction({hotelId}));
     }
-  }, [isNearByOffersUpdated, hotelId, dispatch, isFavoriteOfferLoaded]);
+  }, [dispatch, hotelId, isFavoriteOfferLoaded]);
 
   const handleClickToBookMark = () => {
-    if (!isAuthorizedUser) {
+    if (isAuthorizedUser) {
+      dispatch(fetchOfferStatusAction({
+        hotelId: currentOffer ? currentOffer.id : Numbers.Zero,
+        status: currentOffer?.isFavorite ? FavoriteStatus.Remove : FavoriteStatus.Add
+      }));
+    } else {
       navigate(AppRoute.Login);
     }
-    dispatch(fetchOfferStatusAction({
-      hotelId: currentOffer ? currentOffer.id : 0,
-      status: currentOffer?.isFavorite ? 0 : 1
-    }));
-    setOfferUpdated(true);
   };
 
   if (currentOffer === null) {

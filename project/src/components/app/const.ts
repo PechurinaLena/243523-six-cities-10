@@ -45,6 +45,16 @@ export enum NameSpace {
   Comments = 'COMMENTS',
 }
 
+export enum FavoriteStatus {
+  Remove = 0,
+  Add = 1
+}
+
+export enum Numbers {
+  Zero = 0,
+  Five = 5,
+}
+
 export type DataProcess = {
   offers: Offer[],
   currentOffer: Offer | null,

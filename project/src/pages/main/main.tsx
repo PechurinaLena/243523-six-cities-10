@@ -9,17 +9,16 @@ import SortForm from 'components/sort-form';
 import Loader from 'components/loader';
 import {getActiveCity, getSelectedPoint} from 'store/slices/offers-process/selectors';
 import {getDataLoaded, getOffers} from 'store/slices/data-process/selectors';
-import {Titles} from 'components/app/const';
+import {Numbers, Titles} from 'components/app/const';
 import {useAppSelector} from 'hooks';
 
 const Main: FC = () => {
-  const offers = useAppSelector(getOffers);
   const currentCity = useAppSelector(getActiveCity);
   const selectedCard = useAppSelector(getSelectedPoint);
   const isDataLoaded = useAppSelector(getDataLoaded);
-  const cityOffers = offers.filter((offer) => offer.city.name === currentCity.name);
+  const cityOffers = useAppSelector(getOffers).filter((offer) => offer.city.name === currentCity.name);
 
-  return !isDataLoaded && cityOffers ?
+  return !isDataLoaded ?
     <div className="page page--gray page--main">
       <Header/>
       <main className="page__main page__main--index">
@@ -29,7 +28,7 @@ const Main: FC = () => {
             <CityList currentCity={currentCity}/>
           </section>
         </div>
-        {cityOffers.length > 0 ?
+        {cityOffers && cityOffers.length > Numbers.Zero ?
           <div className="cities">
             <div className="cities__places-container container">
               <section className="cities__places places">

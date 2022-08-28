@@ -2,7 +2,7 @@ import {FC, FormEvent, useRef} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 
 import Header from 'components/header';
-import {AppRoute, getRandomCity, Titles} from 'components/app/const';
+import {AppRoute, getRandomCity, Numbers, Titles} from 'components/app/const';
 import {AuthData} from 'types/auth-data';
 import {City} from 'types/offers';
 import {useAppDispatch} from 'hooks';
@@ -13,11 +13,9 @@ import {cities} from 'mocks/cities';
 export const Login: FC = () => {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const randomCity = cities[getRandomCity(0, 5)];
+  const randomCity = cities[getRandomCity(Numbers.Zero, Numbers.Five)];
 
   const handleClickToRandomCity = (city: City) => {
     dispatch(setActiveCity(city));
@@ -29,7 +27,6 @@ export const Login: FC = () => {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-
     if (loginRef.current !== null && passwordRef.current !== null && passwordRef.current?.value.length >= 1) {
       onSubmit({
         login: loginRef.current.value,
