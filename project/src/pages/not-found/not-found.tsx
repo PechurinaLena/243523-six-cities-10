@@ -1,6 +1,7 @@
 import {FC} from 'react';
 import {Link} from 'react-router-dom';
-import {AppRoute} from 'components/app/const';
+
+import {AppRoute} from 'enums';
 
 const NotFound: FC = () => (
   <section style={{width: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#f5f5f5'}}>

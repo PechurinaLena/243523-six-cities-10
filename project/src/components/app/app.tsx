@@ -9,11 +9,12 @@ import NotFound from 'pages/not-found';
 import PrivateRoute from 'components/private-route';
 import HistoryRouter from 'components/history-router';
 import Loader from 'components/loader';
-import {AppRoute, isCheckedAuth} from 'components/app/const';
-import browserHistory from 'browser-history';
-import {useAppSelector} from 'hooks';
 import {getAuthorizationStatus} from 'store/slices/user-process/selectors';
 import {getDataLoaded} from 'store/slices/data-process/selectors';
+import browserHistory from 'browser-history';
+import {useAppSelector} from 'hooks';
+import {isCheckedAuth} from 'utils';
+import {AppRoute} from 'enums';
 
 export const App: FC = () => {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);

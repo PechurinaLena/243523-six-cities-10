@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-import {NameSpace, OffersProcess, SortType} from 'components/app/const';
+import {NameSpace, SortType} from 'enums';
+import {OffersProcess} from 'types/process';
 
 export const initialState: OffersProcess = {
   offers: [],

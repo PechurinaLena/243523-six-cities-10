@@ -10,17 +10,17 @@ export const SortForm: FC = () => {
   const sortOffers = useAppSelector(getSortingOffers);
   const isSortOptionsShown = useAppSelector(getOptionsShown);
 
-  const handleChangeVisibleOptions = (value: boolean) => {
+  const handleVisibleSortOptionsChange = (value: boolean) => {
     dispatch(setOptionsShown(value));
   };
 
-  const handleChangeOption = (option: string) => {
+  const handleSortOptionChange = (option: string) => {
     dispatch(setSortingOffers(option));
   };
 
   return (
     <form className="places__sorting" action="#" method="get"
-      onClick={() => handleChangeVisibleOptions(!isSortOptionsShown)}
+      onClick={() => handleVisibleSortOptionsChange(!isSortOptionsShown)}
     >
       <span className="places__sorting-caption">Sort by {''}</span>
       <span className="places__sorting-type" tabIndex={0}>
@@ -30,7 +30,7 @@ export const SortForm: FC = () => {
         </svg>
       </span>
       <SortOption isSortOptionsShown={isSortOptionsShown} sortOffers={sortOffers}
-        handleChangeOption={handleChangeOption}
+        handleSortOptionChange={handleSortOptionChange}
       />
     </form>
   );

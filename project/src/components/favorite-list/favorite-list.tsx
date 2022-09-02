@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import FavoriteCard from 'components/favorite-card';
 import {Offer} from 'types/offers';
 import {cities} from 'mocks/cities';
-import {AppRoute} from 'components/app/const';
+import {AppRoute} from 'enums';
 import {setActiveCity} from 'store/slices/offers-process/offers-process';
 
 export type FavoriteListProps = {

@@ -2,10 +2,10 @@ import {FC} from 'react';
 
 import Card from 'components/card';
 import {Offer} from 'types/offers';
-import {useAppDispatch, useAppSelector} from 'hooks';
-import {AuthorizationStatus} from 'components/app/const';
 import {setSelectedPoint} from 'store/slices/offers-process/offers-process';
 import {getAuthorizationStatus} from 'store/slices/user-process/selectors';
+import {useAppDispatch, useAppSelector} from 'hooks';
+import {AuthorizationStatus} from 'enums';
 
 export type CardListProps = {
   cityOffers: Offer[];

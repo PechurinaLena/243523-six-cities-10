@@ -2,18 +2,10 @@ import {City} from 'types/offers';
 
 export const cities: City[] = [
   {
-    name: 'Amsterdam',
+    name: 'Paris',
     location: {
-      latitude: 52.371807,
-      longitude: 4.896029,
-      zoom: 3
-    }
-  },
-  {
-    name: 'Brussels',
-    location: {
-      latitude: 50.8503396,
-      longitude: 4.3517103,
+      latitude: 48.864716,
+      longitude: 2.349014,
       zoom: 3
     }
   },
@@ -26,10 +18,18 @@ export const cities: City[] = [
     }
   },
   {
-    name: 'Paris',
+    name: 'Brussels',
     location: {
-      latitude: 48.864716,
-      longitude: 2.349014,
+      latitude: 50.8503396,
+      longitude: 4.3517103,
+      zoom: 3
+    }
+  },
+  {
+    name: 'Amsterdam',
+    location: {
+      latitude: 52.371807,
+      longitude: 4.896029,
       zoom: 3
     }
   },

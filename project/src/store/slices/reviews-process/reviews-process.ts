@@ -1,6 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {NameSpace, ReviewsProcess} from 'components/app/const';
+
 import {fetchNewReviewAction, fetchReviewsAction} from 'store/api-actions';
+import {ReviewsProcess} from 'types/process';
+import {NameSpace} from 'enums';
 
 export const initialState: ReviewsProcess = {
   reviews: [],

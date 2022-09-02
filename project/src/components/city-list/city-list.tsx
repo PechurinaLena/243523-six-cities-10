@@ -13,7 +13,7 @@ export type CityListProps = {
 export const CityList: FC<CityListProps> = ({currentCity}) => {
   const dispatch = useAppDispatch();
 
-  const handleClickCity = (item: City) => {
+  const handleCityClick = (item: City) => {
     dispatch(setActiveCity(item));
   };
 
@@ -23,7 +23,7 @@ export const CityList: FC<CityListProps> = ({currentCity}) => {
         <li key={city.name} className="locations__item">
           <Link to={''} className={`locations__item-link tabs__item ${currentCity.name === city.name
           && 'tabs__item--active'}`}
-          onClick={() => handleClickCity(city)}
+          onClick={() => handleCityClick(city)}
           >
             <span>{city.name}</span>
           </Link>
