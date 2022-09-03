@@ -1,23 +1,34 @@
-import {FC, FormEvent, useRef} from 'react';
+import {FC, FormEvent, useEffect, useRef} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 
 import Header from 'components/header';
-import {AppRoute, getRandomCity, Numbers, Titles} from 'components/app/const';
-import {AuthData} from 'types/auth-data';
-import {City} from 'types/offers';
-import {useAppDispatch} from 'hooks';
 import {loginAction} from 'store/api-actions';
 import {setActiveCity} from 'store/slices/offers-process/offers-process';
+import {getAuthorizationStatus} from 'store/slices/user-process/selectors';
+import {AuthData} from 'types/auth-data';
+import {City} from 'types/offers';
 import {cities} from 'mocks/cities';
+import {useAppDispatch, useAppSelector} from 'hooks';
+import {AppRoute, AuthorizationStatus, Numbers, Titles} from 'enums';
+import {getRandomCity} from 'utils';
 
 export const Login: FC = () => {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const randomCity = cities[getRandomCity(Numbers.Zero, Numbers.Five)];
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isAuthorizedUser = authorizationStatus === AuthorizationStatus.Auth;
+  const navigate = useNavigate();
 
-  const handleClickToRandomCity = (city: City) => {
+  useEffect(() => {
+    if (isAuthorizedUser) {
+      navigate(AppRoute.Root);
+    }
+  }, [isAuthorizedUser, navigate]
+  );
+
+  const handleRandomCityClick = (city: City) => {
     dispatch(setActiveCity(city));
   };
 
@@ -25,7 +36,7 @@ export const Login: FC = () => {
     dispatch(loginAction(authData));
   };
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleLoginFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (loginRef.current !== null && passwordRef.current !== null && passwordRef.current?.value.length >= 1) {
       onSubmit({
@@ -33,7 +44,6 @@ export const Login: FC = () => {
         password: passwordRef.current.value,
       });
     }
-    navigate(AppRoute.Root);
   };
 
   return (
@@ -43,7 +53,7 @@ export const Login: FC = () => {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">{Titles.LoginSignIn}</h1>
-            <form className="login__form form" action="#" method="post" onSubmit={handleSubmit}>
+            <form className="login__form form" action="#" method="post" onSubmit={handleLoginFormSubmit}>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
@@ -65,6 +75,8 @@ export const Login: FC = () => {
                   id="password"
                   name="password"
                   placeholder="Password"
+                  pattern="^(?=.*[a-zA-Z])(?=\w*[0-9])\w{2,20}$"
+                  title="Пароль должен состоять минимум из одной буквы и цифры"
                   required
                 />
               </div>
@@ -79,7 +91,7 @@ export const Login: FC = () => {
           <section className="locations locations--login locations--current">
             <div className="locations__item">
               <Link to={AppRoute.Root} className="locations__item-link"
-                onClick={() => handleClickToRandomCity(randomCity)}
+                onClick={() => handleRandomCityClick(randomCity)}
               >
                 <span>{randomCity.name}</span>
               </Link>

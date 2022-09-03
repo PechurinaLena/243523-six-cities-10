@@ -2,14 +2,16 @@ import {FC, useEffect} from 'react';
 import {default as dayjs} from 'dayjs';
 
 import ReviewForm from 'components/review-form';
-import {getRatingWidth} from 'components/app/const';
-import {fetchReviewsAction} from 'store/api-actions';
-import {useAppDispatch, useAppSelector} from 'hooks';
-import {Reviews} from 'types/reviews';
 import {getReviewLoaded} from 'store/slices/reviews-process/selectors';
+import {fetchReviewsAction} from 'store/api-actions';
+import {Review} from 'types/reviews';
+import {useAppDispatch, useAppSelector} from 'hooks';
+import {compareDates, getRatingWidth} from 'utils';
+import {REVIEWS_MAX_LENGTH} from 'const';
+import {Numbers} from 'enums';
 
 export type ReviewListProps = {
-  reviews: Reviews[];
+  reviews: Review[];
   hotelId: number;
   isAuthorizedUser: boolean;
 }
@@ -24,9 +26,7 @@ export const ReviewList: FC<ReviewListProps> = ({reviews, isAuthorizedUser, hote
     }
   }, [isReviewLoaded, dispatch, hotelId]);
 
-  const filteredReviews = reviews.slice(0, 10).sort(
-    (reviewA, reviewB) => new Date(reviewA.date).getTime() - new Date(reviewB.date).getTime(),
-  );
+  const filteredReviews = () => reviews.slice().sort(compareDates).slice(Numbers.Zero, REVIEWS_MAX_LENGTH);
 
   return (
     <section className="property__reviews reviews">
@@ -35,7 +35,7 @@ export const ReviewList: FC<ReviewListProps> = ({reviews, isAuthorizedUser, hote
           {reviews.length}
         </span>
       </h2>
-      {filteredReviews.map((review) => (
+      {filteredReviews().map((review) => (
         <ul className="reviews__list" key={review.id}>
           <li className="reviews__item">
             <div className="reviews__user user">

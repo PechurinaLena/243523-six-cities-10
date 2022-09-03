@@ -5,7 +5,7 @@ import {AuthorizationStatus} from 'enums';
 
 export type DataProcess = {
   offers: Offer[],
-  currentOffer: Offer | undefined,
+  currentOffer: Offer | null,
   favoritesOffers: Offer[],
   nearbyOffers: Offer[],
   currentCity: City,

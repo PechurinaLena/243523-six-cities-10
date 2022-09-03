@@ -1,6 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-import {DataProcess, getSortOffers, NameSpace, SortType} from 'components/app/const';
+import {NameSpace, SortType} from 'enums';
+import {DataProcess} from 'types/process';
+import {getSortOffers} from 'utils';
 
 import {
   fetchFavoritesOffersAction,
@@ -71,19 +73,19 @@ export const dataProcess = createSlice({
         state.currentOffer = action.payload;
         state.isDataLoaded = false;
       })
-      .addCase(fetchFavoritesOffersAction.pending, (state) => {
-        state.isFavoriteOfferLoaded = true;
-      })
-      .addCase(fetchFavoritesOffersAction.fulfilled, (state, action) => {
-        state.favoritesOffers = action.payload;
-        state.isFavoriteOfferLoaded = false;
-      })
       .addCase(fetchNearbyOffersAction.pending, (state) => {
         state.isDataLoaded = true;
       })
       .addCase(fetchNearbyOffersAction.fulfilled, (state, action) => {
         state.nearbyOffers = action.payload;
         state.isDataLoaded = false;
+      })
+      .addCase(fetchFavoritesOffersAction.pending, (state) => {
+        state.isFavoriteOfferLoaded = true;
+      })
+      .addCase(fetchFavoritesOffersAction.fulfilled, (state, action) => {
+        state.favoritesOffers = action.payload;
+        state.isFavoriteOfferLoaded = false;
       })
       .addCase(fetchOfferStatusAction.pending, (state) => {
         state.isFavoriteOfferLoaded = true;
