@@ -1,11 +1,12 @@
 import {FC} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 
-import {Offer} from 'types/offers';
-import {AppRoute, AuthorizationStatus, FavoriteStatus, getRatingWidth, transformRoute} from 'components/app/const';
-import {fetchOfferStatusAction} from 'store/api-actions';
-import {useAppDispatch, useAppSelector} from 'hooks';
 import {getAuthorizationStatus} from 'store/slices/user-process/selectors';
+import {fetchOfferStatusAction} from 'store/api-actions';
+import {Offer} from 'types/offers';
+import {AppRoute, AuthorizationStatus, FavoriteStatus} from 'enums';
+import {useAppDispatch, useAppSelector} from 'hooks';
+import {getRatingWidth, getTransformedRoute} from 'utils';
 
 export type FavoriteCardProps = {
   offersByCity: Offer[];
@@ -23,7 +24,7 @@ export const FavoriteCard: FC<FavoriteCardProps> = ({offersByCity}) => {
       {offersByCity.map((offer) => (
         <article className="favorites__card place-card" key={offer.id}>
           <div className="favorites__image-wrapper place-card__image-wrapper">
-            <Link to={(transformRoute(`${AppRoute.Room}/${offer.id}`))}>
+            <Link to={(getTransformedRoute(`${AppRoute.Room}/${offer.id}`))}>
               <img className="place-card__image" src={offer.previewImage} width="150"
                 height="110"
                 alt={''}
@@ -62,7 +63,7 @@ export const FavoriteCard: FC<FavoriteCardProps> = ({offersByCity}) => {
             </div>
             <h2 className="place-card__name">
               <Link
-                to={(transformRoute(`${AppRoute.Room}/${offer.id}`))}
+                to={(getTransformedRoute(`${AppRoute.Room}/${offer.id}`))}
               >{offer.title}
               </Link>
             </h2>

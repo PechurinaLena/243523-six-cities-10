@@ -2,10 +2,11 @@ import {FC, useEffect} from 'react';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 
 import {Offer} from 'types/offers';
-import {AppRoute, FavoriteStatus, getRatingWidth, Numbers, transformRoute} from 'components/app/const';
 import {fetchNearbyOffersAction, fetchOfferStatusAction} from 'store/api-actions';
 import {getFavoriteDataLoaded} from 'store/slices/data-process/selectors';
 import {useAppDispatch, useAppSelector} from 'hooks';
+import {AppRoute, FavoriteStatus, Numbers} from 'enums';
+import {getRatingWidth, getTransformedRoute} from 'utils';
 
 export type CardProps = {
   card: Offer
@@ -24,7 +25,7 @@ const Card: FC<CardProps> = ({card, isAuthorizedUser, onListItemHover, isNearByC
     window.scrollTo(Numbers.Zero, Numbers.Zero);
   }, [location]);
 
-  const handleClickToBookMark = () => {
+  const handleBookMarkClick = () => {
     if (isAuthorizedUser) {
       dispatch(fetchOfferStatusAction({
         hotelId: card.id,
@@ -48,7 +49,7 @@ const Card: FC<CardProps> = ({card, isAuthorizedUser, onListItemHover, isNearByC
           <span>Premium</span>
         </div>}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={(transformRoute(`${AppRoute.Room}/${card.id}`))}>
+        <Link to={(getTransformedRoute(`${AppRoute.Room}/${card.id}`))}>
           <img className="place-card__image" src={card.previewImage} width="260" height="200"
             alt={''}
           />
@@ -62,7 +63,7 @@ const Card: FC<CardProps> = ({card, isAuthorizedUser, onListItemHover, isNearByC
           </div>
           <button
             className={`place-card__bookmark-button ${card.isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
-            type="button" onClick={handleClickToBookMark}
+            type="button" onClick={handleBookMarkClick}
           >
             <svg
               className="place-card__bookmark-icon"
@@ -80,7 +81,7 @@ const Card: FC<CardProps> = ({card, isAuthorizedUser, onListItemHover, isNearByC
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={(transformRoute(`${AppRoute.Room}/${card.id}`))}>{card.title}</Link>
+          <Link to={(getTransformedRoute(`${AppRoute.Room}/${card.id}`))}>{card.title}</Link>
         </h2>
         <p className="place-card__type">{card.type}</p>
       </div>

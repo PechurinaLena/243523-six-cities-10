@@ -9,7 +9,7 @@ import SortForm from 'components/sort-form';
 import Loader from 'components/loader';
 import {getActiveCity, getSelectedPoint} from 'store/slices/offers-process/selectors';
 import {getDataLoaded, getOffers} from 'store/slices/data-process/selectors';
-import {Numbers, Titles} from 'components/app/const';
+import {Numbers, Titles} from 'enums';
 import {useAppSelector} from 'hooks';
 
 const Main: FC = () => {

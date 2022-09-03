@@ -8,13 +8,14 @@ import Loader from 'components/loader';
 import ReviewList from 'components/review-list';
 import HostCard from 'components/host-card';
 import NotFound from 'pages/not-found';
-import {useAppDispatch, useAppSelector} from 'hooks';
-import {AppRoute, AuthorizationStatus, FavoriteStatus, getRatingWidth, Numbers, Titles} from 'components/app/const';
 import {fetchNearbyOffersAction, fetchOfferAction, fetchOfferStatusAction} from 'store/api-actions';
-import {getCurrentOffer, getFavoriteDataLoaded, getNearbyOffers} from 'store/slices/data-process/selectors';
+import {getCurrentOffer, getFavoriteDataLoaded, getNearbyOffers,} from 'store/slices/data-process/selectors';
 import {getActiveCity, getSelectedPoint} from 'store/slices/offers-process/selectors';
 import {getReviews} from 'store/slices/reviews-process/selectors';
 import {getAuthorizationStatus} from 'store/slices/user-process/selectors';
+import {AppRoute, AuthorizationStatus, FavoriteStatus, Numbers, Titles} from 'enums';
+import {useAppDispatch, useAppSelector} from 'hooks';
+import {getRatingWidth} from 'utils';
 
 export const Room: FC = () => {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ export const Room: FC = () => {
     }
   }, [dispatch, hotelId, isFavoriteOfferLoaded]);
 
-  const handleClickToBookMark = () => {
+  const handleBookMarkClick = () => {
     if (isAuthorizedUser) {
       dispatch(fetchOfferStatusAction({
         hotelId: currentOffer ? currentOffer.id : Numbers.Zero,
@@ -80,7 +81,7 @@ export const Room: FC = () => {
                 <button
                   className={`property__bookmark-button ${currentOffer.isFavorite && 'property__bookmark-button--active'} button`}
                   type="button"
-                  onClick={handleClickToBookMark}
+                  onClick={handleBookMarkClick}
                 >
                   <svg className={`property__bookmark-icon ${currentOffer.isFavorite && 'place-card__bookmark-icon'}`}
                     width="31" height="33"

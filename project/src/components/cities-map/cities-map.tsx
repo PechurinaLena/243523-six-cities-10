@@ -4,7 +4,8 @@ import {Icon, Marker} from 'leaflet';
 
 import useMap from 'hooks/use-map';
 import {City, Offer} from 'types/offers';
-import {AppRoute, transformRoute} from 'components/app/const';
+import {AppRoute} from 'enums';
+import {getTransformedRoute} from 'utils';
 
 const defaultIcon = new Icon({
   iconUrl: '/img/pin.svg',
@@ -37,7 +38,9 @@ export const CitiesMap: FC<CitiesMapProps> = ({cityOffers, selectedCard, current
         const marker = new Marker({
           lat: location.latitude,
           lng: location.longitude,
-        }).bindPopup(title);
+        }).bindPopup(title, {
+          closeButton: false
+        });
         map.flyTo([location.latitude, location.longitude], zoom);
         markers.push(marker);
         marker
@@ -47,7 +50,7 @@ export const CitiesMap: FC<CitiesMapProps> = ({cityOffers, selectedCard, current
               : defaultIcon
           )
           .addTo(map);
-        marker.on('click', () => navigate(transformRoute(`${AppRoute.Room}/${id}`)));
+        marker.on('click', () => navigate(getTransformedRoute(`${AppRoute.Room}/${id}`)));
         marker.on('mouseover', () => marker.openPopup());
       });
       return () => markers.forEach((marker) => map.removeLayer(marker));

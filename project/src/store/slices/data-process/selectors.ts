@@ -1,6 +1,6 @@
 import {State} from 'types/state';
 import {Offer} from 'types/offers';
-import {NameSpace} from 'components/app/const';
+import {NameSpace} from 'enums';
 
 export const getOffers = (state: State): Offer[] => state[NameSpace.Data].offers;
 export const getCurrentOffer = (state: State): Offer | null => state[NameSpace.Data].currentOffer;
